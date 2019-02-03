@@ -1,74 +1,46 @@
 class Slider {
   constructor(root) {
+    // Initialisation des propriétés de l'objet
     this.root = root
-    this.slidesContainer = root.querySelector(".js-slider-slides")
-    this.nbSlides = this.slidesContainer.querySelectorAll(".js-slider-slide").length
+    this.slidesContainer = root.querySelector('.js-slider-slides')
+    this.slides = this.slidesContainer.querySelectorAll('.js-slider-slide')
+    this.nbSlides = this.slides.length
     this.currentIndex = 0
+    this.delay = parseInt(root.dataset.delay) || 2000
 
+    // Le `this` doit être attaché explicitement à certaines méthodes
+    // C'est un sujet un peu délicat dont nous parlerons en détail
     this.goToNextSlide = this.goToNextSlide.bind(this)
-    this.goToPreviousSlide = this.goToPreviousSlide.bind(this)
 
     this.onInit()
   }
 
   onInit() {
-    this.interval = setInterval(this.goToNextSlide, 2000)
+    // Initialisation des événements, timeout, intervals...
+    // Tout ce qui devra être nettoyé à la destruction du composant
 
-    this.createControls()
-  }
-
-  createControls() {
-    this.previousButton = document.createElement("button")
-    this.previousButton.innerHTML = "Previous"
-    this.root.append(this.previousButton)
-    this.previousButton.addEventListener("click", this.goToPreviousSlide)
-
-    this.nextButton = document.createElement("button")
-    this.nextButton.innerHTML = "Next"
-    this.root.append(this.nextButton)
-    this.nextButton.addEventListener("click", this.goToNextSlide)
+    // `setInterval` renvoie un identifiant, qu'on stocke afin de
+    // pouvoir l'utiliser pour arrêter l'intervalle si le composant
+    // est détruit
+    this.interval = setInterval(this.goToNextSlide, this.delay)
   }
 
   destroy() {
-    this.stop()
-  }
-
-  stop() {
-    if (this.interval !== null) {
-      clearInterval(this.interval)
-      this.interval = null
-    }
+    // Suppression des événements, nettoyage des timeouts et intervalles...
+    clearInterval(this.interval)
   }
 
   goToNextSlide() {
-    this.stop()
-
-    ++this.currentIndex
+    ++this.currentIndex // currentIndex = currentIndex + 1
 
     if (this.currentIndex === this.nbSlides) {
       this.currentIndex = 0
     }
 
-    this.moveSlides()
-  }
-
-  goToPreviousSlide() {
-    this.stop()
-
-    --this.currentIndex
-
-    if (this.currentIndex < 0) {
-      this.currentIndex = this.nbSlides - 1
-    }
-
-    this.moveSlides()
-  }
-
-  moveSlides() {
-    const transform = `${this.currentIndex * -100}%`
-    this.slidesContainer.style.transform = `translateX(${transform})`
+    const transform = -100 * this.currentIndex
+    this.slidesContainer.style.transform = `translateX(${transform}%)`
   }
 }
 
-const sliderRoots = Array.from(document.querySelectorAll('.js-slider'))
-const sliders = sliderRoots.map(root => new Slider(root))
+const slidersRoots = Array.from(document.querySelectorAll('.js-slider'))
+const sliders = slidersRoots.map(root => new Slider(root))
