@@ -34,30 +34,129 @@ Le fichier `app.js` comporte la logique de notre application. Nous avons 2 compo
 * `SearchForm` : ce composant aura pour but de gérer le formulaire de recherche. Il écoutera l'événement `submit` et lancera la requête vers l'API Open Weather Map afin de récupérer les informations météorologiques
 * `ResultArea` : ce composant aura pour but de gérer l'affichage des données récupérées par le formulaire de recherche
 
-Ces deux composants sont interfacés l'un avec l'autre via les options de `SearchForm`.
+Ces deux composants sont interfacés l'un avec l'autre via les options de
+`SearchForm`. Ces options permettent de garder une distinction claire au niveau
+des responsabilités de chaque composant : `SearchForm` offre une interface
+permettant de réagir à des événements (`onLoading`, `onReceiveData`,
+`onError`), mais il ne s'occupe pas lui-même de l'affichage des données. Ce
+travail est effectué par `ResultArea`. On crée donc d'abord une instance de
+`ResultArea`, afin de passer des méthodes de ce composant à l'instance de
+`SearchForm`.
 
 ## 3ème étape : implémenter le composant `SearchForm`
 
-Ce composant doit écouter l'événement `submit` sur le formulaire, et faire une
-requête vers l'API Open Weather Map avec la fonction `fetch` sur l'URL
-`https://api.openweathermap.org/data/2.5/weather?q={NOM_DE_LA_VILLE},fr&mode=json&units=metric&appid={API_KEY}`
+### Prise de connaissance de l'API Open Weather Map
 
-Il vous faudra évidemment remplacer `{NOM_DE_LA_VILLE}` par le nom de la ville
-saisi par l'utilisateur, et `{API_KEY}` par la clef API que vous avez récupéré
-lors de votre inscription sur Open Weather Map.
+`SearchForm` a pour rôle de requêter [l'API Open Weather
+Map](https://openweathermap.org/api). Prenez d'abord un instant pour lire la
+page [« How to start »](https://openweathermap.org/appid) de la documentation.
+Pour les moins anglophiles, voici un résumé :
 
-Vous pouvez tester cette URL en la tapant directement dans votre navigateur et
-en regardant ce qui s'affiche dans la page.
+* Pour pouvoir requêter l'API, il faut avoir une clef d'API. C'est ce que vous avez obtenu à l'étape 1 du TD. Vous devez avoir une clef de la forme `b1b15e88fa797225412429c1c50c122a1`
+* La clef API doit être passée via le paramètre `appid` à chaque requête (exemple : `https://api.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a1`)
+
+Plus précisément, nous allons utiliser l'API [« Current Weather Data
+»](https://openweathermap.org/current). Jettez un oeil à la documentation. À nouveau, pour les moins anglophiles, un résumé :
+
+* L'URL de cette API est `https://api.openweathermap.org/data/2.5/weather`
+* Pour spécifier la ville à rechercher, il faut utiliser le paramètre `q` : `https://api.openweathermap.org/data/2.5/weather?q=London`
+* Par défaut, le unités utilisées ne sont pas celles du système métrique (température en degrés Farenheit, par exemple). Pour utiliser le système métrique, il faut ajouter le paramètre `units=metric` : `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric`
+* Enfin, il ne faut évidemment pas oublier de spécifier votre clef API : `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=b1b15e88fa797225412429c1c50c122a1`
+
+L'URL sur laquelle nous ferons nos requêtes est donc la suivante :
+`https://api.openweathermap.org/data/2.5/weather?q={NOM_DE_LA_VILLE},fr&units=metric&appid={API_KEY}`.
+`{NOM_DE_LA_VILLE}` et `{API_KEY}` devront être remplacés respectivement par la
+ville saisie par l'utilisateur, et la clef API que vous avez généré lors de
+votre inscription sur Open Weather Map. N'hésitez pas à remplacer ces
+paramètres à la main et à tester l'URL dans votre navigateur ou dans Postman. Vous devriez récupérer une réponse au format JSON. Par exemple :
+
+```json
+{
+  "message": "accurate",
+  "cod": "200",
+  "count": 1,
+  "list": [
+    {
+      "id": 2643743,
+      "name": "London",
+      "coord": {
+        "lat": 51.5085,
+        "lon": -0.1258
+      },
+      "main": {
+        "temp": 7,
+        "pressure": 1012,
+        "humidity": 81,
+        "temp_min": 5,
+        "temp_max": 8
+      },
+      "dt": 1485791400,
+      "wind": {
+        "speed": 4.6,
+        "deg": 90
+      },
+      "sys": {
+        "country": "GB"
+      },
+      "rain": null,
+      "snow": null,
+      "clouds": {
+        "all": 90
+      },
+      "weather": [
+        {
+          "id": 701,
+          "main": "Mist",
+          "description": "mist",
+          "icon": "50d"
+        },
+        {
+          "id": 300,
+          "main": "Drizzle",
+          "description": "light intensity drizzle",
+          "icon": "09d"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Implémentation de `SearchForm`
+
+Ce composant récupère le `<form>` via le paramètre `root` de son constructeur.
+Son rôle est d'écouter l'événement `submit` sur cet élément, afin de récupérer
+la saisie de l'utilisateur et de lancer la requête à l'API via la fonction
+`fetch`. Il reçoit aussi dans son constructeur un objet `options` contenant les
+propriétés `onLoading`, `onReceiveData` et `onReceiveError`, qui sont des
+fonctions.
+
+`onLoading` devra être exécutée lors du lancement de la requête;
+`onReceiveData` devra être exécutée lorsque la réponse est revenue et qu'elle
+contient effectivement des données (qu'on passera en paramètre à la fonction);
+et `onReceiveError` devra être exécutée lorsque la réponse est revenue avec une
+erreur (qu'on passera en paramètre à la fonction).
+
+Pour le moment, les fonctions correspondantes de `ResultArea` ne sont pas
+encore implémentées, donc rien ne s'affichera dans la page. Toutefois, vous
+pouvez utiliser `console.log` pour afficher les données reçues et les erreurs
+dans la console.
 
 N'hésitez pas à vous inspirer de l'exemple vu en cours sur l'API Github :
-https://codesandbox.io/s/xpzq894lww?from-embed
-
-Vous serez arrivé au bout de cette étape lorsque vous aurez réussi à afficher
-dans la console les informations météorologiques issues d'une requête `fetch`
-sur l'API Open Weather Map à partir du nom de la ville saisie par
-l'utilisateur.
+https://codesandbox.io/s/zqq8kykov4
 
 ## 4ème étape : implémenter le composant `ResultArea`
+
+Ce composant récupère la `<div id="result">` via le paramètre `root` de son constructeur. Son rôle est de gérer l'affichage de la zone de résultat. Il peut y avoir 3 cas :
+
+* Message de chargement : méthode `showLoading`
+* Données : méthode `showResults`
+* Erreur : méthode `showError`
+
+Chacune de ces méthodes est appelée au bon moment par le composant
+`SearchForm`, grâce au système d'options que nous avons précédemment décrit.
+Ainsi, `showResults` recevra en paramètre un objet de données météorologiques;
+et `showError` recevra en paramètre un objet d'erreur.
 
 Ce composant gère l'affichage du résultat. Il n'écoute aucun événement, en
 revanche il est interfacé avec `SearchForm` via les options de ce dernier de
@@ -67,22 +166,31 @@ requête asynchrone est arrivée la méthode `showResult` de `ResultArea` est
 appelée; et lorsqu'une erreur survient, la méthode `showError` de `ResultArea`
 est appelée.
 
-Ainsi, nous avons deux composants aux rôles bien distincts, mais qui sont
-capables de s'interfacer ensemble.
+`showLoading` et `showError` sont les méthodes les plus simples : la première
+affiche simplement un message de chargement, et la seconde affiche l'erreur
+qu'elle reçoit en paramètre.
 
-La méthode `showLoadingMessage` modifie le contenu de la zone de résultat pour
-afficher un message type `"Chargement en cours..."`.
-
-La méthode `showResult` prend en paramètre les données retournées par l'appel à
-l'API, crée les éléments HTML à partir de ces données et les affichent dans la
-zone de résultat.
-
-La méthode `showError` prend ne paramètre une erreur retournée par l'appel à
-l'API et l'affiche dans le zone de résultat.
+`showResult` nécessite plus de travail. Son but est de créer différents
+éléments HTML afin d'afficher les données météorologiques qu'elle reçoit en
+paramètre. Regardez les données que vous recevez et laissez libre court à votre
+imagination. Sachez seulement que si vous souhaitez afficher une icône, vous
+pouvez utiliser la propriété `icon` des données que vous recevez en la mettant
+dans l'URL suivante à la place de `{ICON}` :
+`http://openweathermap.org/img/w/{ICON}.png`.
 
 À nouveau, n'hésitez pas à vous inspirer de l'exemple vu en cours :
-https://codesandbox.io/s/xpzq894lww?from-embed
+https://codesandbox.io/s/zqq8kykov4
 
 ## Conclusion
 
-TODO
+Ce TD a réunit tout ce que nous avons vu ensemble depuis le début de notre cours :
+
+* Manipulation du DOM
+* Événements
+* Requêtes asynchrones
+
+Vous vous êtes certainement rendu(e)s compte que manipuler le DOM de manière
+impérative en créant des éléments en JS est bien plus fastidieux que de faire
+du HTML. Ce sera le point de départ de notre prochain cours d'introduction à
+React, dans lequel nous verrons comment cette librairie nous permet de
+manipuler le DOM dynamiquement et de manière déclarative.
