@@ -2,7 +2,7 @@
 
 ## Slides
 
-* [Les événements](https://slides.com/drazik/programmation-web-client-riche-les-evenements/#/)
+* Les événements : [en ligne](https://slides.com/drazik/programmation-web-client-riche-les-evenements/#/) / [PDF](les-evenements.pdf)
 
 ## TL;DR
 

@@ -2,8 +2,8 @@
 
 ## Slides
 
-* [Introduction au JavaScript](https://slides.com/drazik/programmation-web-client-riche-introduction-au-javascript/#/)
-* [Le Document Object Model (DOM)](https://slides.com/drazik/programmation-web-client-riche-le-dom/#/)
+* Introduction au JavaScript: [en ligne](https://slides.com/drazik/programmation-web-client-riche-introduction-au-javascript/#/) / [PDF](introduction-au-javascript.pdf)
+* Le Document Object Model (DOM): [en ligne](https://slides.com/drazik/programmation-web-client-riche-le-dom/#/) / [PDF](le-dom.pdf)
 
 ## TL;DR
 

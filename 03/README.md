@@ -2,4 +2,4 @@
 
 ## Slides
 
-* [La programmation asynchrone en JS](https://slides.com/drazik/programmation-web-client-riche-la-programmation-asynchrone-en-js)
+* La programmation asynchrone en JS: [en ligne](https://slides.com/drazik/programmation-web-client-riche-la-programmation-asynchrone-en-js) / [PDF](la-programmation-asychrone-en-js.pdf)
