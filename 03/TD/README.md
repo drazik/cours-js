@@ -194,3 +194,60 @@ impérative en créant des éléments en JS est bien plus fastidieux que de fair
 du HTML. Ce sera le point de départ de notre prochain cours d'introduction à
 React, dans lequel nous verrons comment cette librairie nous permet de
 manipuler le DOM dynamiquement et de manière déclarative.
+
+## Améliorations possibles
+
+### Faire moins d'appels à l'API
+
+[La documentation de l'API](https://openweathermap.org/appid), dans la partie «
+Tips on how to use API effectively », nous indique que les données sont
+rafraîchies toutes les 10 minutes du côté d'Open Weather Map. Par conséquent,
+il ne sert à rien de faire plus d'un appel à l'API par tranche de 10 minutes.
+Une amélioration possible pour éviter de faire des requêtes inutiles est donc
+de créer un cache.
+
+Un cache consiste à stocker des données en mémoire afin de servir deux buts :
+
+* Répondre plus rapidement à une requête si on connait déjà le résultat
+* Ne pas utiliser de ressources inutilement pour recalculer une donnée qu'on connait
+
+Afin d'implémenter ce cache, le plus simple est de gérer un objet faisant la
+correspondance entre un nom de ville et les données et la date à laquelle
+celles-ci ont été récupérées. Cet objet ressemblerait à :
+
+```js
+const cache = {
+  paris: {
+    data: { // données reçues via l'API },
+    updatedAt: // un objet Date() créé lorsque les données ont été reçues
+  }
+}
+```
+
+Ainsi, lorsque l'on est sur le point d'envoyer une requête à l'API, il faudra
+d'abord regarder dans le cache si on a une donnée pour la ville demandée par
+l'utilisateur. Si c'est le cas, il faudra vérifier que celle-ci a été récupérée
+il y a moins de 10 minutes. Si c'est le cas, on ne fait pas la requête et on
+utilise directement la donnée en cache. Sinon, on envoie a requête et on met à
+jour le cache lorsqu'on a reçu les nouvelles données.
+
+```
+const city = // récupération de la saisie de l'utilisateur
+
+if (la donnée est dans le cache) {
+  return la donnée du cache
+} else {
+  fetch(/* ... */).then(() => {
+    // utilisation de la donnée et mise à jour du cache
+  })
+}
+```
+
+### Ajouter différentes fonctionnalités de l'API
+
+Nous avons utilisé l'API « Current Weather » d'Open Weather Map. Mais il y a
+d'autres API ouvertes gratuitement. Ainsi, il est possible d'ajouter des
+boutons radio au formulaire pour que l'utilisateur puisse choisir ce qu'il veut
+voir : la météo actuelle, l'évolution de la météo toutes les 3 heures sur 5
+jours, une prévision par jour tous les 16 jours... En fonction du choix de
+l'utilisateur, la requête et l'affichage des données sont différents.
