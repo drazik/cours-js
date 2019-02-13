@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div class="jumbotron">
+      <h1 class="display-4">Weather App</h1>
+      <p class="lead">Entrez le nom d'une ville afin de voir la météo qui y est prévue</p>
+      <hr class="my-4">
+      <form id="search-form">
+        <div class="form-group">
+          <label for="city">Ville</label>
+          <input type="text" class="form-control" id="city" name="city" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row" id="result" style="justify-content: center;">
+        <!-- <div class="col-sm-6 item"> -->
+        <!--   <div class="card"> -->
+        <!--     <div class="card-body"> -->
+        <!--       <h5 class="card-title">Special title treatment</h5> -->
+        <!--       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+        <!--       <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        <!--     </div> -->
+        <!--   </div> -->
+        <!-- </div> -->
+      </div>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
