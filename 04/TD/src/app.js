@@ -1,7 +1,7 @@
 class SearchForm {
-  constructor(root, options = {}) {
+  constructor(root, resultArea) {
     this.root = root
-    this.options = options
+    this.resultArea = resultArea
 
     this.onSubmit = this.onSubmit.bind(this)
 
@@ -21,7 +21,7 @@ class SearchForm {
 
     const city = this.root.city.value
 
-    this.options.onLoading()
+    this.resultArea.showLoadingMessage()
 
     this.fetchData(city)
       .then(data => {
@@ -29,13 +29,13 @@ class SearchForm {
           throw new Error(data.message)
         }
 
-        this.options.onReceiveData(data)
+        this.resultArea.showData(data)
       })
-      .catch(err => this.onReceiveError(err))
+      .catch(err => this.resultArea.showError(err))
   }
 
   fetchData(city) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},fr&mode=json&units=metric&appid=${this.options.appID}`
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},fr&mode=json&units=metric&appid=...`
 
     return fetch(url)
       .then(response => response.json())
@@ -56,12 +56,14 @@ class ResultArea {
   }
 
   showData(data) {
+    console.log(data)
     this.root.innerHTML = ""
 
-    this.root.append(this.createCard(data))
+    const card = this.createCard(data)
+    this.root.append(card)
   }
 
-  createCard(result) {
+  createCard(data) {
     const root = document.createElement("div")
     root.className = "card"
 
@@ -73,25 +75,27 @@ class ResultArea {
 
     root.append(body)
 
-    body.append(this.createTitle(result))
+    const title = this.createTitle(data)
+    body.append(title)
 
-    body.append(this.createIcon(result.weather[0].icon))
+    const icon = this.createIcon(data.weather[0].icon)
+    body.append(icon)
 
     body.append(this.createInfoElement(
-      `${result.weather[0].main} / ${result.weather[0].description}`,
+      `${data.weather[0].main} / ${data.weather[0].description}`,
       "h3"
     ))
-    body.append(this.createInfoElement(`${Math.ceil(result.main.temp)}°C`, "div"))
-    body.append(this.createInfoElement(`${result.main.humidity}% d'humidité`, "div"))
+    body.append(this.createInfoElement(`${Math.ceil(data.main.temp)}°C`, "div"))
+    body.append(this.createInfoElement(`${data.main.humidity}% d'humidité`, "div"))
 
     return root
   }
 
-  createTitle(result) {
+  createTitle(data) {
     const date = new Date()
     const title = document.createElement("h2")
     title.className = "card-title"
-    title.innerHTML = `Météo à ${result.name} le ${date.toLocaleString()}`
+    title.innerHTML = `Météo à ${data.name} le ${date.toLocaleString()}`
 
     return title
   }
@@ -121,9 +125,4 @@ const resultAreaRoot = document.querySelector("#result")
 const resultArea = new ResultArea(resultAreaRoot)
 
 const searchFormRoot = document.querySelector("#search-form")
-const searchForm = new SearchForm(searchFormRoot, {
-  onLoading: resultArea.showLoadingMessage,
-  onReceiveData: resultArea.showData,
-  onReceiveError: resultArea.showError,
-  appID: "5a0a09001bdc538dfa5e7fcbb053427a"
-})
+const searchForm = new SearchForm(searchFormRoot, resultArea)
