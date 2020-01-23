@@ -11,7 +11,7 @@ import { generateRandomNumber } from './utils.js'
 export function initGame(form, result, min, max) {
   let input = form.querySelector('input')
 
-  // Générer un nombre aléatoire entre min et max et le stocker dans une variable `number`
+  // 👉 Générer un nombre aléatoire entre min et max et le stocker dans une variable `number`
   // let number = ...
 
   /**
@@ -22,12 +22,12 @@ export function initGame(form, result, min, max) {
   function handleGuessSubmit(event) {
     event.preventDefault()
 
-    // Récupérer la valeur entrée dans `input`
+    // 👉 Récupérer la valeur entrée dans `input`
     // let guess = ...
 
-    // Lancer la vérification de la valeur entrée par l'utilisateur
+    // 👉 Lancer la vérification de la valeur entrée par l'utilisateur
 
-    // Vider la valeur saisie dans `input`
+    // 👉 Vider la valeur saisie dans `input`
     // input.value = ...
   }
 
@@ -37,18 +37,18 @@ export function initGame(form, result, min, max) {
    * @param {Number} guess - La valeur donnée lors de la tentative
    */
   function checkGuess(guess) {
-    // Si guess et number sont égaux, appeler la fonction handleWin
+    // 👉 Si guess et number sont égaux, appeler la fonction handleWin
     // puis la fonction reset
     if (/* ... */) {
       // ...
     }
 
-    // Si guess est inférieur à number, appeler la fonction handleHigher
+    // 👉 Si guess est inférieur à number, appeler la fonction handleHigher
     if (/* ... */) {
       // ...
     }
 
-    // Si guess est supérieur à number, appeler la fonction handleLower
+    // 👉 Si guess est supérieur à number, appeler la fonction handleLower
     if (/* ... */) {
       // ...
     }
@@ -72,7 +72,7 @@ export function initGame(form, result, min, max) {
  * afficher le résultat
  */
 function handleWin(result) {
-  // Afficher la chaîne 'Gagné ! 🎉' dans result
+  // 👉 Afficher la chaîne 'Gagné ! 🎉' dans result (utilisez la propriété textContent de result)
 }
 
 /**
@@ -82,7 +82,7 @@ function handleWin(result) {
  * le résultat
  */
 function handleHigher(result, guess) {
-  // Afficher la chaîne `C'est plus que ${guess}` dans result
+  // 👉 Afficher la chaîne `C'est plus que ${guess}` dans result (utilisez la propriété textContent de result)
 }
 
 /**
@@ -92,5 +92,5 @@ function handleHigher(result, guess) {
  * le résultat
  */
 function handleLower(result, guess) {
-  // Afficher la chaîne `C'est moins que ${guess}` dans result
+  // 👉 Afficher la chaîne `C'est moins que ${guess}` dans result (utilisez la propriété textContent de result)
 }
