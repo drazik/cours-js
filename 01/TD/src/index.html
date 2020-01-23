@@ -1,20 +1,27 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <title>Slider</title>
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-
-  <body>
-    <div class="slider js-slider">
-      <div class="slider-slides js-slider-slides">
-        <div class="slider-slide js-slider-slide"></div>
-        <div class="slider-slide js-slider-slide"></div>
-        <div class="slider-slide js-slider-slide"></div>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess the number</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="Wrapper">
+    <div class="Stack">
+      <h1 class="Title">🎲 Guess the number !</h1>
+      <p class="rule">
+        Un nombre entier entre 1 et 100 a été généré aléatoirement.
+        À vous de le trouver !
+      </p>
+      <form class="Form js-form">
+        <label for="number">Entrez un nombre :</label>
+        <input type="number" min="1" max="100" id="number" autofocus />
+        <button type="submit">Vérifier</button>
+      </form>
+      <p class="Result js-result"></p>
     </div>
+  </div>
 
-    <script src="./app.js"></script>
-  </body>
+  <script src="./app.js"></script>
+</body>
 </html>
