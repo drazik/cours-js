@@ -15,4 +15,6 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/"
   ],
+
+  browser: true
 };
