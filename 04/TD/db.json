@@ -1,0 +1,39 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "First post title",
+      "content": "This is the first post content",
+      "author": "drazik",
+      "comments": []
+    },
+    {
+      "id": "2",
+      "title": "Second post title",
+      "content": "This is the second post content",
+      "author": "drazik",
+      "comments": []
+    },
+    {
+      "id": "IxdglrCz",
+      "title": "title",
+      "content": "content",
+      "author": "drazik",
+      "comments": []
+    },
+    {
+      "id": "ZniYiGy1",
+      "title": "title",
+      "content": "content",
+      "author": "drazik",
+      "comments": []
+    },
+    {
+      "id": "I7YTtBmg",
+      "title": "title",
+      "content": "content",
+      "author": "drazik",
+      "comments": []
+    }
+  ]
+}
