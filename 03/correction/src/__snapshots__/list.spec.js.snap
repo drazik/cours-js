@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createItemNode should create an item with the given label 1`] = `
+<li
+  class="list__item js-list-item"
+>
+  <label>
+    <input
+      class="js-list-item-checkbox"
+      type="checkbox"
+    />
+    huile
+  </label>
+  <button
+    aria-label="Supprimer"
+    class="list__remove-btn js-list-item-remove"
+    type="button"
+  >
+    ❌
+  </button>
+</li>
+`;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping list</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
+</head>
+<body>
+  <header>
+    <h1 class="title">My shopping list 🛒</h1>
+  </header>
+  <section class="main">
+    <form class="add-item-form js-form">
+      <input
+        type="text"
+        placeholder="Oeufs, huile, pain..."
+        class="add-item-form__input js-form-input"
+      />
+      <button type="submit" class="add-item-form__submit js-form-submit">+</button>
+    </form>
+    <ul class="list js-list">
+    </ul>
+  </section>
+
+  <script src="./app.js"></script>
+</body>
+</html>
