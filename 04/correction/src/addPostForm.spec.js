@@ -37,6 +37,21 @@ describe('addPostForm', () => {
 
       expect(getByText(formElement, 'Send')).toBeDisabled()
     })
+
+    describe('when there is an error message', () => {
+      it('should remove it', () => {
+        createPost.mockRejectedValueOnce({
+          message: 'author and content are required'
+        })
+
+        createPost.mockResolvedValueOnce({
+          id: '1234',
+          date: '2020-02-26',
+          author: 'drazik',
+          content: 'Something interesting'
+        })
+      })
+    })
   })
 
   describe('when success', () => {
@@ -82,6 +97,25 @@ describe('addPostForm', () => {
 
       await wait(() => {
         expect(onSuccess).toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when error', () => {
+    beforeEach(() => {
+      createPost.mockRejectedValue({
+        message: 'author and content are required'
+      })
+    })
+
+    it('should show an error message', async () => {
+      let formElement = getDOM()
+      initAddPostForm(formElement, onSuccess)
+
+      fireEvent.submit(formElement)
+
+      await wait(() => {
+        expect(getByText(formElement, 'author and content are required')).toBeDefined()
       })
     })
   })

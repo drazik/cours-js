@@ -31,6 +31,10 @@ export async function createPost(post) {
 
   // 👉 Parser la réponse en JSON
   let data = await response.json()
+
+  if (response.status >= 300) {
+    throw new Error(data.message)
+  }
   
   // 👉 Renvoyer les données
   return data

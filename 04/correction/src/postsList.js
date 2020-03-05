@@ -1,3 +1,5 @@
+import { getPosts } from './api.js'
+
 function createPostElement(post) {
   let rootElement = document.createElement('article')
   rootElement.className = 'post stack stack--large'
@@ -34,11 +36,16 @@ export function initPostsList(postsListElement) {
   }
 
   async function showInitialPosts() {
-    // Appeler la fonction getPosts du module api.js
-    // ...
+    try {
+      // Appeler la fonction getPosts du module api.js
+      let posts = await getPosts()
 
-    // Pour chaque post, appeler la fonction add en lui passant en paramètre le post
-    // ...
+      // Pour chaque post, appeler la fonction add en lui passant en paramètre le post
+      posts.forEach(add)
+    } catch (err) {
+      console.error('The following error occured when fetching initial posts')
+      console.error(err)
+    }
   }
 
   showInitialPosts()

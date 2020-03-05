@@ -36,6 +36,7 @@ describe('postsList', () => {
       })
     })
   })
+
   describe('when adding a post', () => {
     it('should add the post to the list', () => {
       let postsListElement = getDOM()
