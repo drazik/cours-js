@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>La musica</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
     <div class="container-fluid">
@@ -17,11 +16,11 @@
             <hr class="my-4" />
             <form id="search-form">
               <div class="form-group row">
-                <label for="artist" class="col-sm-2 col-form-label">
+                <label for="artist-name" class="col-sm-2 col-form-label">
                   Artiste / groupe
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="artist" name="artist" placeholder="Daft Punk" />
+                  <input type="text" class="form-control" id="artist-name" name="artist" placeholder="Daft Punk" />
                 </div>
                 <div class="col-sm-2">
                   <button type="submit" class="btn btn-primary">
@@ -37,15 +36,15 @@
 
       <div id="result-area">
         <div class="row mt-4">
-          <div class="col-sm js-result-area-main">
+          <div class="col-sm" id="main-result">
           </div>
         </div>
 
-        <div class="row mt-4 js-result-area-similar">
+        <div class="row mt-4" id="similar-artists">
         </div>
       </div>
     </div>
 
-    <script src="./app.js"></script>
+    <script src="./main.js"></script>
   </body>
 </html>
