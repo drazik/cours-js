@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>La musica</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+          <div class="jumbotron mb-0">
+            <h1>La musica</h1>
+            <p class="lead">
+              Entrez le nom d'un(e) artiste/groupe ci-dessous pour obtenir des informations sur lui/elle.
+            </p>
+            <hr class="my-4" />
+            <form id="search-form">
+              <div class="form-group row">
+                <label for="artist-name" class="col-sm-2 col-form-label">
+                  Artiste / groupe
+                </label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="artist-name" name="artist" placeholder="Daft Punk" />
+                </div>
+                <div class="col-sm-2">
+                  <button type="submit" class="btn btn-primary">
+                    Rechercher
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="result-area">
+        <div class="row mt-4">
+          <div class="col-sm" id="main-result">
+          </div>
+        </div>
+
+        <div class="row mt-4" id="similar-artists">
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
