@@ -1,12 +1,13 @@
-import { initGame } from './game.js'
-import { generateRandomNumber } from './utils.js'
-import { getByLabelText, getByText, getByTestId, fireEvent } from '@testing-library/dom'
-import '@testing-library/jest-dom/extend-expect'
+import { initGame } from "./game.js"
+import { generateRandomNumber } from "./utils.js"
+import { getByLabelText, fireEvent } from "@testing-library/dom"
+import "@testing-library/jest-dom/extend-expect"
 
-jest.mock('./utils.js')
+jest.mock("./utils.js")
 
-function getExampleDOM() {
-  let div = document.createElement('div')
+const getExampleDOM = () => {
+  const div = document.createElement("div")
+
   div.innerHTML = `
 <form class="js-form">
   <label for="number">Entrez un nombre :</label>
@@ -19,39 +20,48 @@ function getExampleDOM() {
   return div
 }
 
-describe('initGame', () => {
-  let container, form, result, min = 1, max = 100
+describe("initGame", () => {
+  const min = 1
+  const max = 100
+
+  let container, form, result
 
   beforeEach(() => {
     container = getExampleDOM()
-    form = container.querySelector('.js-form')
-    result = container.querySelector('.js-result')
+    form = container.querySelector(".js-form")
+    result = container.querySelector(".js-result")
 
     generateRandomNumber.mockReturnValue(50)
     initGame(form, result, min, max)
   })
 
-  it('should tell when the given number is too low', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
+  describe("Lorsque le nombre entré est trop petit", () => {
+    it("un message indiquant que le nombre est trop petit doit s'afficher", () => {
+      const input = getByLabelText(container, /entrez un nombre/i)
 
-    input.value = 30
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent("C'est plus que 30 !")
+      input.value = 30
+      fireEvent.submit(form)
+      expect(result).toHaveTextContent("C'est plus que 30 !")
+    })
   })
 
-  it('should tell when the given number is too high', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
+  describe("Lorsque le nombre entré est trop grand", () => {
+    it("un message indiquant que le nombre est trop grand doit s'afficher", () => {
+      const input = getByLabelText(container, /entrez un nombre/i)
 
-    input.value = 60
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent("C'est moins que 60 !")
+      input.value = 60
+      fireEvent.submit(form)
+      expect(result).toHaveTextContent("C'est moins que 60 !")
+    })
   })
 
-  it('should tell when the given number is exact', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
+  describe("Lorsque le nombre entré est exact", () => {
+    it("un message indiquant que le nombre entr est exact doit s'afficher", () => {
+      const input = getByLabelText(container, /entrez un nombre/i)
 
-    input.value = 50
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent(/gagné/i)
+      input.value = 50
+      fireEvent.submit(form)
+      expect(result).toHaveTextContent(/gagné/i)
+    })
   })
 })

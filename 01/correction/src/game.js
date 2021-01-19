@@ -1,4 +1,4 @@
-import { generateRandomNumber } from './utils.js'
+import { generateRandomNumber } from "./utils.js"
 
 /**
  * Initialise une partie du jeu
@@ -8,28 +8,28 @@ import { generateRandomNumber } from './utils.js'
  * @param {Number} min - La valeur minimale du nombre aléatoire
  * @param {Number} maxx - La valeur maximale du nombre aléatoire
  */
-export function initGame(form, result, min, max) {
-  let input = form.querySelector('input')
+export const initGame = (form, result, min, max) => {
+  const input = form.querySelector("input")
 
   // 👉 Générer un nombre aléatoire entre min et max et le stocker dans une variable `number`
-  let number = generateRandomNumber(min, max)
+  const number = generateRandomNumber(min, max)
 
   /**
    * Gère la soumission d'une tentative
    *
    * @param {Event} event - L'événement levé par la soumission du formulaire
    */
-  function handleGuessSubmit(event) {
+  const handleGuessSubmit = (event) => {
     event.preventDefault()
 
     // 👉 Récupérer la valeur entrée dans `input`
-    let guess = input.value
+    const guess = input.value
 
     // 👉 Lancer la vérification de la valeur entrée par l'utilisateur
     checkGuess(guess)
 
     // 👉 Vider la valeur saisie dans `input`
-    input.value = ''
+    input.value = ""
   }
 
   /**
@@ -37,7 +37,7 @@ export function initGame(form, result, min, max) {
    *
    * @param {Number} guess - La valeur donnée lors de la tentative
    */
-  function checkGuess(guess) {
+  const checkGuess = (guess) => {
     // 👉 Si guess et number sont égaux, appeler la fonction handleWin
     // puis la fonction reset
     if (guess == number) {
@@ -59,12 +59,12 @@ export function initGame(form, result, min, max) {
   /**
    * Initialise une nouvelle tentative
    */
-  function reset() {
-    form.removeEventListener('submit', handleGuessSubmit)
+  const reset = () => {
+    form.removeEventListener("submit", handleGuessSubmit)
     initGame(form, result, min, max)
   }
 
-  form.addEventListener('submit', handleGuessSubmit)
+  form.addEventListener("submit", handleGuessSubmit)
 }
 
 /**
@@ -73,9 +73,9 @@ export function initGame(form, result, min, max) {
  * @param {HTMLParagraphElement} result - L'élément dans lequel
  * afficher le résultat
  */
-function handleWin(result) {
+const handleWin = (result) => {
   // 👉 Afficher la chaîne 'Gagné ! 🎉' dans result (utilisez la propriété textContent de result)
-  result.textContent = 'Gagné ! 🎉'
+  result.textContent = "Gagné ! 🎉"
 }
 
 /**
@@ -84,7 +84,7 @@ function handleWin(result) {
  * @param {HTMLParagraphElement} result - L'élément dans lequel afficher
  * le résultat
  */
-function handleHigher(result, guess) {
+const handleHigher = (result, guess) => {
   // 👉 Afficher la chaîne `C'est plus que ${guess}` dans result (utilisez la propriété textContent de result)
   result.textContent = `C'est plus que ${guess} !`
 }
@@ -95,7 +95,7 @@ function handleHigher(result, guess) {
  * @param {HTMLParagraphElement} result - L'élément dans lequel afficher
  * le résultat
  */
-function handleLower(result, guess) {
+const handleLower = (result, guess) => {
   // 👉 Afficher la chaîne `C'est moins que ${guess}` dans result (utilisez la propriété textContent de result)
   result.textContent = `C'est moins que ${guess} !`
 }
