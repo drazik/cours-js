@@ -4,17 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "parcel src/index.html",
+    "start": "parcel serve ./src/index.html",
+    "build": "parcel build ./src/index.html",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@testing-library/dom": "^6.11.0",
-    "@testing-library/jest-dom": "^5.0.2",
-    "jest": "^25.1.0",
-    "parcel-bundler": "^1.12.4"
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@testing-library/dom": "^7.29.4",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/user-event": "^12.6.2",
+    "jest": "^26.6.3",
+    "parcel": "^2.0.0-beta.1"
   }
 }

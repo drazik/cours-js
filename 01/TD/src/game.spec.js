@@ -1,57 +1,103 @@
-import { initGame } from './game.js'
-import { generateRandomNumber } from './utils.js'
-import { getByLabelText, getByText, getByTestId, fireEvent } from '@testing-library/dom'
-import '@testing-library/jest-dom/extend-expect'
+import { initGame } from "./game.js"
+import { generateRandomNumber } from "./utils.js"
+import { screen, fireEvent } from "@testing-library/dom"
+import userEvent from "@testing-library/user-event"
+import "@testing-library/jest-dom/extend-expect"
 
-jest.mock('./utils.js')
+jest.mock("./utils.js")
 
-function getExampleDOM() {
-  let div = document.createElement('div')
+const getExampleDOM = () => {
+  const div = document.createElement("div")
+
   div.innerHTML = `
-<form class="js-form">
+<form class="js-game-form">
   <label for="number">Entrez un nombre :</label>
-  <input type="number" min="1" max="100" id="number" />
+  <input type="number" min="1" max="100" id="number" class="js-game-input" />
   <button type="submit">OK</button>
 </form>
-<p class="result js-result" data-testid="result"></p>
+<p class="result js-game-result"></p>
+<button type="button" class="js-game-reset" hidden>Rejouer</button>
   `
 
   return div
 }
 
-describe('initGame', () => {
-  let container, form, result, min = 1, max = 100
+describe("initGame", () => {
+  const min = 1
+  const max = 100
 
   beforeEach(() => {
-    container = getExampleDOM()
-    form = container.querySelector('.js-form')
-    result = container.querySelector('.js-result')
+    const container = getExampleDOM()
+    document.body.append(container)
 
     generateRandomNumber.mockReturnValue(50)
-    initGame(form, result, min, max)
+    initGame(container, { min, max })
   })
 
-  it('should tell when the given number is too low', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
-
-    input.value = 30
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent("C'est plus que 30 !")
+  afterEach(() => {
+    ;[...document.body.children].forEach((child) => child.remove())
   })
 
-  it('should tell when the given number is too high', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
-
-    input.value = 60
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent("C'est moins que 60 !")
+  describe("Lorsque la partie est initialisée", () => {
+    it("le bouton rejouer ne doit pas être visible", () => {
+      expect(screen.getByText("Rejouer")).not.toBeVisible()
+    })
   })
 
-  it('should tell when the given number is exact', () => {
-    let input = getByLabelText(container, /entrez un nombre/i)
+  describe("Lorsque le nombre entré est trop petit", () => {
+    it("un message indiquant que le nombre est trop petit doit s'afficher", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "30")
+      fireEvent.click(screen.getByText("OK"))
 
-    input.value = 50
-    fireEvent.submit(form)
-    expect(result).toHaveTextContent(/gagné/i)
+      expect(screen.getByText("C'est plus que 30 !")).toBeInTheDocument()
+    })
+  })
+
+  describe("Lorsque le nombre entré est trop grand", () => {
+    it("un message indiquant que le nombre est trop grand doit s'afficher", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "60")
+      fireEvent.click(screen.getByText("OK"))
+
+      expect(screen.getByText("C'est moins que 60 !")).toBeInTheDocument()
+    })
+  })
+
+  describe("Lorsque le nombre entré est exact", () => {
+    it("un message indiquant que le nombre entré est exact doit s'afficher", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "50")
+      fireEvent.click(screen.getByText("OK"))
+      expect(screen.getByText(/gagné/i)).toBeInTheDocument()
+    })
+
+    it("un bouton pour recommencer une partie doit s'afficher", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "50")
+      fireEvent.click(screen.getByText("OK"))
+      expect(screen.getByText("Rejouer")).toBeVisible()
+    })
+
+    it("le champ de saisie doit être désactivé", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "50")
+      fireEvent.click(screen.getByText("OK"))
+      expect(screen.getByLabelText(/entrez un nombre/i)).toBeDisabled()
+    })
+
+    it("le bouton d'envoi du formulaire doit être désactivé", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "50")
+      fireEvent.click(screen.getByText("OK"))
+      expect(screen.getByText("OK")).toBeDisabled()
+    })
+  })
+
+  describe("Lorsque l'utilisateur click sur le bouton rejouer", () => {
+    it("une nouvelle partie doit être initialisée", () => {
+      userEvent.type(screen.getByLabelText(/entrez un nombre/i), "50")
+      fireEvent.click(screen.getByText("OK"))
+      fireEvent.click(screen.getByText("Rejouer"))
+
+      expect(screen.getByText("Rejouer")).not.toBeVisible()
+      expect(screen.getByLabelText(/entrez un nombre/i)).toHaveValue(null)
+      expect(screen.getByText("OK")).not.toBeDisabled()
+      expect(screen.getByLabelText(/entrez un nombre/i)).not.toBeDisabled()
+    })
   })
 })

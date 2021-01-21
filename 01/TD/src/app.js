@@ -1,8 +1,7 @@
-import { initGame } from './game.js'
+import { initGame } from "./game.js"
 
-let form = document.querySelector('form')
-let result = document.querySelector('.js-result')
-let min = 1
-let max = 100
+const gameElement = document.querySelector(".js-game")
+const min = 1
+const max = 100
 
-initGame(form, result, min, max)
+initGame(gameElement, { min, max })

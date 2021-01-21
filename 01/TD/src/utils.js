@@ -5,6 +5,6 @@
  * @param {Number} max - La valeur maximale
  * @return {Number} Un nombre aléatoire compris entre min et max
  */
-export function generateRandomNumber(min, max) {
-  // 👉 Utilisez la fonctioin `Math.random` pour générer un nombre aléatoire
+export const generateRandomNumber = (min, max) => {
+  // 👉 Utilisez la fonction `Math.random` pour générer un nombre aléatoire
 }

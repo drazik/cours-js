@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Guess the number</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
-  <div class="Wrapper">
-    <div class="Stack">
-      <h1 class="Title">🎲 Guess the number !</h1>
-      <p class="rule">
+  <head>
+    <meta charset="UTF-8">
+    <title>Guess the number</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="Wrapper">
+      <div class="Stack">
+        <h1 class="Title">🎲 Guess the number !</h1>
+        <p>
         Un nombre entier entre 1 et 100 a été généré aléatoirement.
         À vous de le trouver !
-      </p>
-      <form class="Form js-form">
-        <label for="number">Entrez un nombre :</label>
-        <input type="number" min="1" max="100" id="number" autofocus />
-        <button type="submit">Vérifier</button>
-      </form>
-      <p class="Result js-result"></p>
+        </p>
+        <div class="js-game">
+          <form class="Form js-game-form">
+            <label for="number">Entrez un nombre :</label>
+            <input type="number" min="1" max="100" id="number" class="js-game-input" />
+            <button type="submit">OK</button>
+          </form>
+          <p class="Result js-game-result"></p>
+          <button type="button" class="js-game-reset" hidden>Rejouer</button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <script src="./app.js"></script>
-</body>
+    <script src="./app.js"></script>
+  </body>
 </html>
