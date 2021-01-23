@@ -32,7 +32,7 @@ Pour récupérer les fichiers du TD, placez-vous dans le dossier dans lequel vou
 souhaitez créer le dossier du TD, puis tapez la commande suivante :
 
 ```bash
-npx degit drazik/cours-js/01/TD td-01
+npx degit drazik/cours-js/01/TD/base td-01
 ```
 
 Vous pouvez remplacer `td-01` par le nom de votre choix. Ce sera le nom du
