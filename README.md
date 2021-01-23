@@ -35,6 +35,15 @@ npx degit drazik/cours-js/01/TD/base td-01
 `td-01` est le nom du dossier qui sera créé sur votre machine, donc vous pouvez
 le remplacer par le nom de votre choix.
 
+Une fois les sources récupérées, vous pouvez ouvrir le dossier dans votre
+éditeur de code favori. Et vous pouvez lancer les tests avec la commande `npm
+run test`. Des commandes plus précises peuvent être données dans l'énoncé de
+chaque TD.
+
+Pour lancer le serveur local afin de voir le projet dans votre navigateur, vous
+pouvez lancer la commande `npm run start`. Cela lancera un serveur sur l'URL
+`http://localhost:1234`.
+
 ### Sur CodeSandbox
 
 Tous les TD peuvent être importés sur [CodeSandbox](https://codesandbox.io/).
