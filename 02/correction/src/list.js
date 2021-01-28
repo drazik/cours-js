@@ -1,3 +1,37 @@
+const makeItem = (label) => {
+  const node = createItemNode(label)
+  const input = node.querySelector("input")
+  const button = node.querySelector("button")
+
+  const init = () => {
+    input.addEventListener("change", handleSelect)
+    button.addEventListener("click", destroy)
+  }
+
+  const handleSelect = (e) => {
+    const selectedClass = "list__item--selected"
+
+    // 👉 Ajouter la classe list__item--selected à l'item si e.target.checked
+    // vaut true. La retirer sinon
+    if (e.target.checked) {
+      node.classList.add(selectedClass)
+    } else {
+      node.classList.remove(selectedClass)
+    }
+  }
+
+  const destroy = () => {
+    node.remove()
+
+    input.removeEventListener("change", handleSelect)
+    button.addEventListener("click", destroy)
+  }
+
+  init()
+
+  return node
+}
+
 /**
  * Crée un nouvel élément DOM pour un item de la liste
  *
@@ -5,36 +39,36 @@
  *
  * @return {HTMLLiElement} L'élément créé
  */
-export function createItemNode(itemLabel) {
+const createItemNode = (itemLabel) => {
   // 👉 Créer un élément de type li
-  let item = document.createElement('li')
+  const item = document.createElement("li")
 
   // 👉 Affecter la classe list__item à l'élément
-  item.className = 'list__item'
+  item.className = "list__item"
 
   // 👉 Créer un élément de type label
-  let label = document.createElement('label')
-  
+  const label = document.createElement("label")
+
   // 👉 Créer un élément de type input
-  let input = document.createElement('input')
+  const input = document.createElement("input")
 
   // 👉 Affecter le type checkbox à l'input
-  input.type = 'checkbox'
+  input.type = "checkbox"
 
   // 👉 Créer un élément de type button
-  let button = document.createElement('button')
+  const button = document.createElement("button")
 
   // 👉 Affecter le type button au button
-  button.type = 'button'
+  button.type = "button"
 
   // 👉 Affecter la classe list__remote-btn au button
-  button.className = 'list__remove-btn'
+  button.className = "list__remove-btn"
 
   // 👉 Ajouter la chaîne '❌' dans le button
-  button.append('❌')
+  button.append("❌")
 
   // 👉 Affecter la valeur 'Supprimer' à l'attribut aria-label du button
-  button.setAttribute('aria-label', 'Supprimer')
+  button.setAttribute("aria-label", "Supprimer")
 
   // 👉 Ajouter l'input dans le label
   label.append(input)
@@ -48,29 +82,6 @@ export function createItemNode(itemLabel) {
   // 👉 Ajouter le button dans l'item
   item.append(button)
 
-  /**
-   * Ajoute ou supprime l'état sélectionné à l'item
-   *
-   * @param {Event} e
-   */
-  function handleSelect(e) {
-    // 👉 Ajouter la classe list__item--selected à l'item si e.target.value
-    // vaut true. La retirer sinon
-    item.classList.toggle('list__item--selected', e.target.checked)
-  }
-
-  /**
-   * Supprime l'item
-   */
-  function handleRemove() {
-    // 👉 Supprimer l'item du DOM
-    item.remove()
-  }
-
-  input.addEventListener('change', handleSelect)
-  button.addEventListener('click', handleRemove)
-
-
   return item
 }
 
@@ -81,16 +92,15 @@ export function createItemNode(itemLabel) {
  *
  * @return {Object}
  */
-export function initList(listElement) {
+export const initList = (listElement) => {
   /**
    * Crée un nouvel item et l'ajoute à la liste
    *
    * @param {string} label
    */
-  function addItem(label) {
-    // 👉 Créer l'item en appelant la fonction createItemNode en lui passant le
-    // label
-    let item = createItemNode(label)
+  const addItem = (label) => {
+    // 👉 Utiliser la fonction `makeItem` pour créer un élément représentant un item de la liste
+    const item = makeItem(label)
 
     // 👉 Ajouter l'item à la liste
     listElement.append(item)

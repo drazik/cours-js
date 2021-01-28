@@ -4,26 +4,29 @@
  * @param {HTMLFormElement} formElement - le formulaire d'ajout d'un item
  * @param {Function} onSubmit - La fonction à exécuter lorsque le formulaire est soumit
  */
-export function initForm(formElement, onSubmit) {
-  // 👉 Récupérer l'élément input situé dans formElement
-  let input = formElement.querySelector('input')
+export const initForm = (formElement, onSubmit) => {
+  const input = formElement.querySelector("input")
+  const addButton = formElement.querySelector("button")
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  const init = () => {
+    updateAddButtonStatus()
 
-
-    // 👉 Récupérer la valeur de input, et supprimer les espaces en début et en
-    // fin de la chaîne de caractères
-    let trimmedValue = input.value.trim()
-
-    // 👉 Si la valeur n'est pas vide, appeler la fonction onSubmit en lui
-    // passant la valeur, puis vider la valeur de input
-    if (trimmedValue) {
-      onSubmit(trimmedValue)
-
-      input.value = ''
-    }
+    input.addEventListener("input", updateAddButtonStatus)
+    formElement.addEventListener("submit", handleSubmit)
   }
 
-  formElement.addEventListener('submit', handleSubmit)
+  const updateAddButtonStatus = () => {
+    addButton.disabled = input.value.trim().length === 0
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const trimmedValue = input.value.trim()
+    onSubmit(trimmedValue)
+
+    input.value = ""
+  }
+
+  init()
 }

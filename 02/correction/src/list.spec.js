@@ -1,51 +1,60 @@
-import { createItemNode, initList } from './list'
-import { getByLabelText, fireEvent } from '@testing-library/dom'
-import '@testing-library/jest-dom/extend-expect'
+import { initList } from "./list"
+import { screen, getByLabelText } from "@testing-library/dom"
+import userEvent from "@testing-library/user-event"
+import "@testing-library/jest-dom/extend-expect"
 
-describe('createItemNode', () => {
-  it('should create an item with the given label', () => {
-    let item = createItemNode('huile')
+const setupDOM = () => {
+  const root = document.createElement("ul")
 
-    expect(item).toMatchSnapshot()
-  })
+  return root
+}
 
-  describe('when selecting an item', () => {
-    it('should have the selected state', () => {
-      let item = createItemNode('huile')
-      let checkbox = getByLabelText(item, 'huile')
+let list
 
-      fireEvent.click(checkbox)
-      expect(item).toHaveClass('list__item--selected')
+beforeEach(() => {
+  const listElement = setupDOM()
+  document.body.append(listElement)
 
-      fireEvent.click(checkbox)
-      expect(item).not.toHaveClass('list__item--selected')
-    })
-  })
-
-  describe('when removing an item', () => {
-    it('should remove the item from the DOM', () => {
-      let container = document.createElement('div')
-      let item = createItemNode('huile')
-      container.append(item)
-
-      let removeBtn = getByLabelText(item, /supprimer/i)
-
-      fireEvent.click(removeBtn)
-
-      expect(() => getByLabelText(container, 'huile')).toThrow()
-    })
-  })
+  list = initList(listElement)
 })
 
-describe('initList', () => {
-  it('should return an object exposing an `addItem` function', () => {
-    let root = document.createElement('ul')
-    let list = initList(root)
+afterEach(() => cleanup())
 
-    expect(list.addItem).toBeInstanceOf(Function)
+const cleanup = () => {
+  ;[...document.body.children].forEach((child) => child.remove())
+}
 
-    list.addItem('farine')
+describe("initList", () => {
+  describe("addItem", () => {
+    it("doit ajouter un nouvel item dans la liste avec le label donné", () => {
+      list.addItem("farine")
 
-    expect(getByLabelText(root, 'farine')).toBeTruthy()
+      expect(screen.getByLabelText("farine")).toBeInTheDocument()
+    })
+  })
+
+  describe("Lorsque l'utilisateur coche un élément", () => {
+    it("l'élément doit apparaître comme étant sélectionné", () => {
+      list.addItem("farine")
+
+      const checkbox = screen.getByLabelText("farine")
+      userEvent.click(checkbox)
+
+      expect(checkbox.parentNode.parentNode).toHaveClass("list__item--selected")
+    })
+  })
+
+  describe("Lorsque l'utilisateur supprime un élément", () => {
+    it("l'élément ne doit plus apparaître", () => {
+      list.addItem("farine")
+
+      const checkbox = screen.getByLabelText("farine")
+      const item = checkbox.parentNode.parentNode
+      const removeButton = getByLabelText(item, "Supprimer")
+
+      userEvent.click(removeButton)
+
+      expect(screen.queryByLabelText("farine")).not.toBeInTheDocument()
+    })
   })
 })
