@@ -1,3 +1,4 @@
+// 👉 Importer la fonction initApp à partir du module app
 import { initApp } from "./app"
 
 // 👉 Récupérer l'élément portant la classe js-form

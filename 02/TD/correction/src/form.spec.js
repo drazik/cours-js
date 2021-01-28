@@ -6,8 +6,8 @@ import "@testing-library/jest-dom/extend-expect"
 function setupDOM() {
   const root = document.createElement("form")
   root.innerHTML = `
-<input type="text" placeholder="Huile, eau, pain..." />
-<button type="submit">Ajouter</button>
+<input type="text" placeholder="Huile, eau, pain..." class="js-form-input" />
+<button type="submit" class="js-form-submit">Ajouter</button>
 `
 
   return root

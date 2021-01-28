@@ -1,27 +1,69 @@
+/*
+ * @typedef {Object} Item
+ * @property {function} addItem - Permet d'ajouter un item à la liste
+ */
+
+/**
+ * Initialise la liste
+ *
+ * @param {HTMLUListElement} listElement - La liste d'items
+ *
+ * @return {Item}
+ */
+export const initList = (listElement) => {
+  /**
+   * Crée un nouvel item et l'ajoute à la liste
+   *
+   * @param {string} label
+   */
+  const addItem = (label) => {
+    // 👉 Utiliser la fonction `makeItem` pour créer un élément représentant
+    // un item de la liste à partir du label
+    const item = makeItem(label)
+
+    // 👉 Ajouter l'item à la liste
+    listElement.append(item)
+  }
+
+  return { addItem }
+}
+
+/**
+ * Initialise un item de la liste
+ *
+ * @return {HTMLLIElement} L'élément du DOM de l'item
+ */
 const makeItem = (label) => {
-  const node = createItemNode(label)
-  const input = node.querySelector("input")
-  const button = node.querySelector("button")
+  // 👉 Créer l'élément de l'item à l'aide de la fonction `createItemNode`
+  const element = createItemElement(label)
+
+  // 👉 Récupérer l'input et le bouton dans l'élément créé
+  const input = element.querySelector("input")
+  const button = element.querySelector("button")
 
   const init = () => {
     input.addEventListener("change", handleSelect)
     button.addEventListener("click", destroy)
   }
 
+  /**
+   * Gère l'état visuel "sélectionné" ou non de l'item.
+   */
   const handleSelect = (e) => {
-    const selectedClass = "list__item--selected"
-
     // 👉 Ajouter la classe list__item--selected à l'item si e.target.checked
     // vaut true. La retirer sinon
+    const selectedClass = "list__item--selected"
+
     if (e.target.checked) {
-      node.classList.add(selectedClass)
+      element.classList.add(selectedClass)
     } else {
-      node.classList.remove(selectedClass)
+      element.classList.remove(selectedClass)
     }
   }
 
   const destroy = () => {
-    node.remove()
+    // 👉 Supprimer l'élément du DOM
+    element.remove()
 
     input.removeEventListener("change", handleSelect)
     button.addEventListener("click", destroy)
@@ -29,7 +71,7 @@ const makeItem = (label) => {
 
   init()
 
-  return node
+  return element
 }
 
 /**
@@ -39,33 +81,33 @@ const makeItem = (label) => {
  *
  * @return {HTMLLiElement} L'élément créé
  */
-const createItemNode = (itemLabel) => {
-  // 👉 Créer un élément de type li
+const createItemElement = (itemLabel) => {
+  // 👉 Créer un élément de type "li"
   const item = document.createElement("li")
 
-  // 👉 Affecter la classe list__item à l'élément
-  item.className = "list__item"
+  // 👉 Affecter la classe "list__item" à l'élément
+  item.classList.add("list__item")
 
-  // 👉 Créer un élément de type label
+  // 👉 Créer un élément de type "label"
   const label = document.createElement("label")
 
-  // 👉 Créer un élément de type input
+  // 👉 Créer un élément de type "input"
   const input = document.createElement("input")
 
-  // 👉 Affecter le type checkbox à l'input
+  // 👉 Affecter le type "checkbox" à l'input
   input.type = "checkbox"
 
-  // 👉 Créer un élément de type button
+  // 👉 Créer un élément de type "button"
   const button = document.createElement("button")
 
-  // 👉 Affecter le type button au button
+  // 👉 Affecter le type "button" au button
   button.type = "button"
 
-  // 👉 Affecter la classe list__remote-btn au button
+  // 👉 Affecter la classe "list__remove-btn" au button
   button.className = "list__remove-btn"
 
-  // 👉 Ajouter la chaîne '❌' dans le button
-  button.append("❌")
+  // 👉 Ajouter la chaîne "❌" dans le button
+  button.textContent = "❌"
 
   // 👉 Affecter la valeur 'Supprimer' à l'attribut aria-label du button
   button.setAttribute("aria-label", "Supprimer")
@@ -83,28 +125,4 @@ const createItemNode = (itemLabel) => {
   item.append(button)
 
   return item
-}
-
-/**
- * Initialise la liste
- *
- * @param {HTMLUListElement} listElement - La liste d'items
- *
- * @return {Object}
- */
-export const initList = (listElement) => {
-  /**
-   * Crée un nouvel item et l'ajoute à la liste
-   *
-   * @param {string} label
-   */
-  const addItem = (label) => {
-    // 👉 Utiliser la fonction `makeItem` pour créer un élément représentant un item de la liste
-    const item = makeItem(label)
-
-    // 👉 Ajouter l'item à la liste
-    listElement.append(item)
-  }
-
-  return { addItem }
 }
