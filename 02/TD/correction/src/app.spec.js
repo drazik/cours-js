@@ -8,8 +8,8 @@ const setupDOM = () => {
 
   root.innerHTML = `
 <form>
-  <input type="text" placeholder="Oeufs, huile, pain..." />
-  <button type="submit">Ajouter</button>
+  <input type="text" placeholder="Oeufs, huile, pain..." class="js-form-input" />
+  <button type="submit" class="js-form-submit">Ajouter</button>
 </form>
 <ul></ul>
 `

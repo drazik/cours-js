@@ -63,12 +63,12 @@ body {
   background-color: transparent;
   cursor: pointer;
   opacity: 0;
-  visibility: hidden;
 }
 
-.list__item:hover .list__remove-btn {
+
+.list__item:hover .list__remove-btn,
+.list__remove-btn:focus {
   opacity: 1;
-  visibility: visible;
 }
 
 .input {
@@ -77,4 +77,11 @@ body {
   box-sizing: border-box;
   border: 0;
   padding: 1rem;
+}
+
+.submit-btn {
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.25rem;
 }

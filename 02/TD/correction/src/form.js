@@ -7,8 +7,8 @@
 export const initForm = (formElement, onSubmit) => {
   // 👉 Récupérer l'input et le bouton d'envoi du formulaire se trouvant
   // à l'intérieur de `formElement`
-  const input = formElement.querySelector("input")
-  const addButton = formElement.querySelector("button")
+  const input = formElement.querySelector(".js-form-input")
+  const addButton = formElement.querySelector(".js-form-submit")
 
   const init = () => {
     updateAddButtonStatus()
