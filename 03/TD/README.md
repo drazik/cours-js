@@ -1,13 +1,21 @@
-# TD 02 : DOM
+# TD 03 : Evénements
 
-Dans ce TD, nous allons construire une mini application de liste de courses.
+Dans ce TD, nous allons développer un formulaire d'inscription.
 
-L'application présente à l'utilisateur un formulaire avec un champ de saisie et
-un bouton d'envoi. Lorsque l'utilisateur saisit une valeur et envoie le
-formulaire, un item est ajouté à la liste.
+L'application présente à l'utilisateur un formulaire avec divers champs de saisie :
 
-L'utilisateur peut ensuite cocher les items, ce qui modifie leur état
-visuellement, ou les supprimer complètement de la liste.
+* Adresse e-mail
+* Mot de passe
+* Nom
+* Prénom
+* Avatar
+* Description
+
+Les champs "Adresse e-mail", "Mot de passe", "Nom" et "Prénom" sont requis.
+
+Le champ "Avatar" propose une prévisualisation de l'image sélectionnée par l'utilisateur.
+
+Le champ "Description" propose un compteurs de caractères restants.
 
 Le résultat final souhaité peut être visualisé sur https://i6ozb.csb.app/
 
@@ -23,51 +31,48 @@ projet.
 
 L'application est divisée en 3 modules : 
 
-* `list.js` : gère la partie "liste". Ce module expose les fonctions nécessaires à la création d'un nouvel item de la liste à partir d'un label
-* `form.js` : gère la partie "formulaire". Ce module gère la saisie de l'utilisateur et prend en paramètre une fonction `onSubmit` qui nous permet de le "brancher" à un autre module
-* `app.js` : assemble les modules de liste et de formulaire. Le but de ce module est de connecter la fonction `addItem` retournée par la fonction `initList` du module de liste au paramètre `onSubmit` de la fonction `initForm` du module de formulaire. Ainsi, lorsque l'utilisateur saisit et envoie une valeur, la fonction `addItem` est appelée automatiquement
+* `avatar.js` : gère la sélection, la prévisualisation et la suppression de l'avatar
+* `description.js` : gère l'affichage du nombre de caractères restants pour la description
+* `form.js` : gère la validation du formulaire
 
-Votre but est donc d'implémenter chacun de ces modules. Il est préférable de
-les implémenter dans l'ordre suivant :
+Votre but est donc d'implémenter chacun de ces modules. Les modules étants tous
+indépendants, il n'y a pas d'ordre précis.
 
-1. `list.js`
-2. `form.js`
-3. `app.js`
+Chacun des modules a son lot de tests automatiques.
 
-Mais rien n'empêche de les implémenter dans l'ordre de votre choix. Les modules
-list et form sont indépendants l'un de l'autre. Seul le module app est
-dépendant des deux autres.
-
-### Module list
-
-Le travail de ce module est de créer les éléments permettant d'afficher un
-nouvel item dans la liste à partir d'un libellé reçu en paramètre. Il faut donc
-faire usage des fonctions vues dans le cours pour créer ces éléments.
-
-La fonction `initList` prend en paramètre un élément du DOM correspondant à la
-liste dans laquelle les nouveaux items seront ajoutés.
+## Module avatar
 
 Pour implémenter le module, vous avez à votre disposition des tests
 automatiques, en lançant la commande suivante : 
 
 ```
-npm run test -- --watchAll src/list.spec.js
+npm run test -- --watchAll src/avatar.spec.js
 ```
 
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/list.js`.
+Ce module propose les fonctionnalités suivantes : 
 
-### Module form
+* Lorsque l'utilisateur sélectionne une image, la preview affiche cette image et un bouton "supprimer" apparaît
+* Lorsque l'utilisateur click sur le bouton "Supprimer", la preview et l'input sont réinitialisés
 
-Ce module gère la saisie de l'utilisateur. Il prend en paramètre un élément du
-DOM correspondant au formulaire contenant le champ de saisie et le bouton
-d'envoi, ainsi qu'une fonction qui sera appelée lorsque l'utilisateur cliquera
-sur le bouton d'envoi.
+Vous pouvez suivre les cas de test ainsi que les commentaires dans le fichier `avatar.js` pour implémenter le module.
 
-La fonction `onSubmit` reçue en paramètre permet de rendre ce module
-indépendant du reste de l'application. Il ne sait "que" gérer la saisie de
-l'utilisateur, et délègue le travail à faire lors de l'envoi du formulaire à un
-autre module.
+## Module description
+
+Pour implémenter le module, vous avez à votre disposition des tests
+automatiques, en lançant la commande suivante : 
+
+```
+npm run test -- --watchAll src/description.spec.js
+```
+
+Ce module propose les fonctionnalités suivantes : 
+
+* A l'initialisation du module, un élément contenant le nombre de caractères restants est créé et affiché
+* Lorsque l'utilisateur tape ou supprime des caractères dans le champ de saisie, le compteur de caractères restants est mis à jour
+
+Vous pouvez suivre les cas de test ainsi que les commentaires dans le fichier `description.js` pour implémenter le module.
+
+## Module form
 
 Pour implémenter le module, vous avez à votre disposition des tests
 automatiques, en lançant la commande suivante : 
@@ -76,32 +81,19 @@ automatiques, en lançant la commande suivante :
 npm run test -- --watchAll src/form.spec.js
 ```
 
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/form.js`.
+Ce module propose les fonctionnalités suivantes : 
 
-### Module app
+* Lorsque l'utilisateur envoie le formulaire, on vérifie si celui-ci est valide. Si ce n'est pas le cas, on annule le comportement par défaut
+* Lorsque l'utilisateur envoie le formulaire, on affiche les messages d'erreurs potentiels
 
-Ce module s'occupe de l'assemblage des modules list et form. Le module list ne
-sait gérer que l'ajout d'items à la liste, et le module form ne sait gérer que
-la saisie de l'utilisateur. Mais le module list nous permet de créer une
-fonction `addItem` qui prend en paramètre un libellé d'un item et qui ajoute un
-nouvel item dans la liste. Et le module form prend en paramètre une fonction
-appelée lorsque le formulaire est envoyé et qui reçoit en paramètre le libellé
-saisit par l'utilisateur. Les deux peuvent donc être assemblés en passant la
-fonction `addItem` issue du module list en paramètre de la fonction `initForm`
-du module form.
+Vous pouvez suivre les cas de test ainsi que les commentaires dans le fichier `form.js` pour implémenter le module.
 
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
+Les messages d'erreurs sont implémentés en utilisant
+[Bootstrap](https://getbootstrap.com/docs/5.0/forms/validation/). Pour qu'ils
+s'affichent, il s'agit donc d'ajouter la classe `was-validated` sur le
+formulaire.
 
-```
-npm run test -- --watchAll src/app.spec.js
-```
-
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/app.js`.
-
-### Test dans le navigateur
+## Test dans le navigateur
 
 Nous avons maintenant 3 modules fonctionnels. Il ne nous reste plus qu'à les
 utiliser pour que notre application fonctionne réellement. Pour cela, ouvrez
