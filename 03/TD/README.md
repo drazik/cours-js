@@ -1,116 +1,118 @@
-# TD
+# TD 02 : DOM
 
-Après ce que nous venons d'apprendre sur les événements, nous décidons de faire
-évoluer notre application de shopping list sur deux points :
+Dans ce TD, nous allons construire une mini application de liste de courses.
 
-* Ajouter un bouton pour soumettre le formulaire. On veut que celui-ci soit
-désactivé lorsque l'input est vide (ou ne contient que des espaces), et activé
-sinon
-* Gérer la suppression des items (click sur la petite croix rouge d'un item) en
-utilisant la délégation d'événement : on ne veut qu'un seul gestionnaire
-d'évenements, sur la liste, et pas un par item comme c'est le cas jusqu'ici
-Dans ce TD, nous allons créer une application permettant de créer une liste de
-courses.
+L'application présente à l'utilisateur un formulaire avec un champ de saisie et
+un bouton d'envoi. Lorsque l'utilisateur saisit une valeur et envoie le
+formulaire, un item est ajouté à la liste.
 
-Pour rappel, l'application contient deux composants :
+L'utilisateur peut ensuite cocher les items, ce qui modifie leur état
+visuellement, ou les supprimer complètement de la liste.
 
-* Le formulaire, dont le code est dans le fichier `src/form.js` et les tests dans `src/form.spec.js`
-* La liste, dont le code est dans le fichier `src/list.js` et les tests dans `src/list.spec.js`
+Le résultat final souhaité peut être visualisé sur https://i6ozb.csb.app/
 
-Chaque évolution est spécifique à un composant. On peut donc travailler sur
-chacune d'elle de manière isolée.
+## Mise en place
 
-## Évolution du formulaire
+Téléchargez les sources avec npx, ou initialisez un CodeSandbox en suivant les
+indications de https://github.com/drazik/cours-js#cours-javascript.
 
-Après avoir fait quelques tests utilisateurs, nous nous sommes aperçus que de
-nombreux des utilisateurs cherchaient un bouton pour pouvoir cliquer dessus
-afin de valider leur saisie. Dans la version actuellle de l'application, le
-seul moyen de valider la saisie de l'utilisateur est l'appui sur la touche
-Entrée.
+N'oubliez pas de lancer un `npm install` pour installer les dépendances du
+projet.
 
-Les tests contenus dans le fichier `src/form.spec.js` ont été mis à jour pour
-nous aider à implémenter cette évolution. Commencez par lancer ces tests :
+## Présentation
 
-```
-npm run test -- --watchAll form.spec.js
-```
+L'application est divisée en 3 modules : 
 
-Deux cas de test ont été ajoutés pour valider cette fonctionnalité :
+* `list.js` : gère la partie "liste". Ce module expose les fonctions nécessaires à la création d'un nouvel item de la liste à partir d'un label
+* `form.js` : gère la partie "formulaire". Ce module gère la saisie de l'utilisateur et prend en paramètre une fonction `onSubmit` qui nous permet de le "brancher" à un autre module
+* `app.js` : assemble les modules de liste et de formulaire. Le but de ce module est de connecter la fonction `addItem` retournée par la fonction `initList` du module de liste au paramètre `onSubmit` de la fonction `initForm` du module de formulaire. Ainsi, lorsque l'utilisateur saisit et envoie une valeur, la fonction `addItem` est appelée automatiquement
 
-* should disable the submit button by default if the input is empty
-* should enable the submit button by default if the input has a value
+Votre but est donc d'implémenter chacun de ces modules. Il est préférable de
+les implémenter dans l'ordre suivant :
 
-Il va s'agir de faire passer ces deux tests. En réalité, si vous regardez ce que
-vous affiche la console, vous verrez que le second passe déjà.
+1. `list.js`
+2. `form.js`
+3. `app.js`
 
-Suivez les instructions contenues dans le fichier `src/form.js` jusqu'à faire
-passer ces deux tests.
+Mais rien n'empêche de les implémenter dans l'ordre de votre choix. Les modules
+list et form sont indépendants l'un de l'autre. Seul le module app est
+dépendant des deux autres.
 
-Une fois que les tests passent, vous pouvez vérifier dans votre navigateur que
-cette fonctionnalité est OK en lançant le serveur de développement
-(`npm run watch`) puis en allant sur http://localhost:1234 dans votre navigateur.
+### Module list
 
-L'état par défaut du bouton est maintenant le bon, peu importe l'état de l'input.
-Mais nous voulons faire évoluer cet état en fonction de la saisie de
-l'utilisateur. Pour ça, nous allons avoir besoin d'écouter l'événement `keyup` surl'input, et d'y associer une fonction qui modifie la propriété `disabled` du
-bouton en fonction de la valeur de l'input.
+Le travail de ce module est de créer les éléments permettant d'afficher un
+nouvel item dans la liste à partir d'un libellé reçu en paramètre. Il faut donc
+faire usage des fonctions vues dans le cours pour créer ces éléments.
 
-Un test a été ajouté pour nous permettre de valider cela :
+La fonction `initList` prend en paramètre un élément du DOM correspondant à la
+liste dans laquelle les nouveaux items seront ajoutés.
 
-* should enable the submit button when the user types something
-
-Ce test est pour le moment désactivé. Pour l'activer, modifiez le `xit` en `it`
-dans le fichier `src/form.spec.js`. Puis suivez les indications dans `src/form.js`
-pour faire passer ce test.
-
-Une fois que le test passe, testez dans votre navigateur. Est-ce que le bouton
-s'active bien dès que vous tapez quelque chose dans l'input ? Est-ce qu'il se
-désactive lorsque vous videz l'input ?
-
-Le travail sur le composant de formulaire est terminé. Bravo !
-
-## Évolution de la liste
-
-Les tests utilisateurs nous ont montré que notre application souffrait d'un
-manque de performance sur des appareils peu performants. Une analyse a été
-effectuée, et il a été identifié que le fait d'ajouter un gestionnaire
-d'événement pour chaque item de la liste pour gérer leur suppression, et un
-autre pour gérer leur sélection est une cause de ce problème de performance.
-Pour régler ce problème, on décide d'utiliser la délégation d'évenements, afin
-de n'avoir que deux gestionnaires d'événements, rattachés à la liste, plutôt qu'à
-chaque item.
-
-Les tests ont été adaptés pour cette modification. Vous pouvez lancer les tests :
+Pour implémenter le module, vous avez à votre disposition des tests
+automatiques, en lançant la commande suivante : 
 
 ```
-npm run test -- --watchAll list.spec.js
+npm run test -- --watchAll src/list.spec.js
 ```
 
-Ils passent d'ores et déjà. C'est normal. Ceux-ci s'assurent que notre application
-a le bon comportement. C'est le cas, même si les performances ne sont pas
-optimales. Notre but ici est de continuer à faire passer les tests, tout en
-changeant notre code (ce qu'on appelle « refactoriser »).
+Vous avez aussi des commentaires vous donnant les différentes étapes à
+implémenter dans le fichier `src/list.js`.
 
-Pour faire cette modification, nous allons utiliser le module
-[ftdomdelegate](https://github.com/Financial-Times/ftdomdelegate).
+### Module form
 
-Premièrement, il faut l'ajouter aux dépendances de notre app :
+Ce module gère la saisie de l'utilisateur. Il prend en paramètre un élément du
+DOM correspondant au formulaire contenant le champ de saisie et le bouton
+d'envoi, ainsi qu'une fonction qui sera appelée lorsque l'utilisateur cliquera
+sur le bouton d'envoi.
+
+La fonction `onSubmit` reçue en paramètre permet de rendre ce module
+indépendant du reste de l'application. Il ne sait "que" gérer la saisie de
+l'utilisateur, et délègue le travail à faire lors de l'envoi du formulaire à un
+autre module.
+
+Pour implémenter le module, vous avez à votre disposition des tests
+automatiques, en lançant la commande suivante : 
 
 ```
-npm install ftdomdelegate
+npm run test -- --watchAll src/form.spec.js
 ```
 
-Cette commande télécharge la dernière version du module dans le dossier
-`node_modules` se situant à la racine de votre projet, ajoute une ligne dans le
-fichier `package.json` pour indiquer que ftdomdelegate est maintenant une
-dépendance du projet, et ajoute aussi des choses au fichier `package-lock.json`,
-afin que lorsque quelqu'un d'autre installera les dépendances du projet, cette
-personne télécharge la même version de la dépendance que vous.
+Vous avez aussi des commentaires vous donnant les différentes étapes à
+implémenter dans le fichier `src/form.js`.
 
-Vous pouvez maintenant suivre les indications dans le fichier `src/list.js`, ainsi
-que la [documentation de ftdomdelegate](https://github.com/Financial-Times/ftdomdelegate#javascript) pour ne plus attacher 2 gestionnaires d'événements à chaque
-item de la liste, mais seulement 2 gestionnaires sur la liste elle-même.
+### Module app
 
-Une fois ceci fait, si les tests passent toujours, alors vous pouvez tester votre
-travail dans le navigateur : vous devriez toujours pouvoir sélectionner et
-supprimer des items de la liste.
+Ce module s'occupe de l'assemblage des modules list et form. Le module list ne
+sait gérer que l'ajout d'items à la liste, et le module form ne sait gérer que
+la saisie de l'utilisateur. Mais le module list nous permet de créer une
+fonction `addItem` qui prend en paramètre un libellé d'un item et qui ajoute un
+nouvel item dans la liste. Et le module form prend en paramètre une fonction
+appelée lorsque le formulaire est envoyé et qui reçoit en paramètre le libellé
+saisit par l'utilisateur. Les deux peuvent donc être assemblés en passant la
+fonction `addItem` issue du module list en paramètre de la fonction `initForm`
+du module form.
+
+Pour implémenter le module, vous avez à votre disposition des tests
+automatiques, en lançant la commande suivante : 
+
+```
+npm run test -- --watchAll src/app.spec.js
+```
+
+Vous avez aussi des commentaires vous donnant les différentes étapes à
+implémenter dans le fichier `src/app.js`.
+
+### Test dans le navigateur
+
+Nous avons maintenant 3 modules fonctionnels. Il ne nous reste plus qu'à les
+utiliser pour que notre application fonctionne réellement. Pour cela, ouvrez
+les fichiers `index.html` et `src/main.js`. Suivez les indications du fichier
+`main.js` tout en ayant un oeil sur le fichier `index.html` pour avoir en tête
+la structure HTML qui s'y trouve.
+
+Pour tester le résultat dans le navigateur, lancez la commande :
+
+```
+npm run start
+```
+
+Et rendez vous sur `http://localhost:1234` dans votre navigateur.
