@@ -17,7 +17,7 @@ Le champ "Avatar" propose une prévisualisation de l'image sélectionnée par l'
 
 Le champ "Description" propose un compteurs de caractères restants.
 
-Le résultat final souhaité peut être visualisé sur https://i6ozb.csb.app/
+Le résultat final souhaité peut être visualisé sur https://s4t0k.csb.app/
 
 ## Mise en place
 
