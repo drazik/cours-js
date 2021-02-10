@@ -7,8 +7,6 @@ Lorsque le serveur réussi à traiter avec succès la requête, on affiche un
 message de succès. Lorsqu'il renvoie une erreur, on affiche le message d'erreur
 qu'il nous fournit, ou un message d'erreur générique.
 
-Le résultat final souhaité peut être visualisé sur https://s4t0k.csb.app/
-
 ## Mise en place
 
 Téléchargez les sources avec npx, ou initialisez un CodeSandbox en suivant les
