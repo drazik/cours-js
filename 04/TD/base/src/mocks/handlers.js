@@ -1,10 +1,13 @@
 import { rest } from "msw"
 import * as db from "./db"
-const util = require("util")
 
 export const handlers = [
   rest.post("http://localhost:1234/register", (req, res, ctx) => {
     const body = req.body
+
+    if (body.lastname === "500") {
+      return res(ctx.status(500), ctx.json({}))
+    }
 
     const missingFields = getMissingFields(body, [
       "email",
@@ -48,7 +51,6 @@ export const handlers = [
 ]
 
 const getMissingFields = (body, requiredFields) => {
-  const bodyFields = Object.keys(body)
   const missingFields = requiredFields.filter(
     (requiredField) => !body[requiredField]
   )
