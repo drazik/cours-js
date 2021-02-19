@@ -6,6 +6,7 @@ export const Forecast = (props) => {
 
   return (
     <div className="px-4 d-grid gap-5">
+      {/* 👉 Afficher un titre contenant la chaîne "Météo à VILLE" (remplacer VILLE par la ville reçue dans les props )*/}
       <h1 className="text-center">Météo à {props.city.name}</h1>
       <div className="d-grid gap-5">
         {Object.entries(forecastsByDay).map(([date, forecasts]) => (
@@ -25,16 +26,12 @@ const ForecastDay = (props) => {
 
   return (
     <div className="d-grid gap-2">
+      {/* 👉 Afficher un titre contenant la chaîne "Le DATE" (remplacer DATE par la date formattée. La date est contenue dans la variable `date`. Voir https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toLocaleDateString pour la formatter) */}
       <h2 className="fs-2">Le {date.toLocaleDateString("fr-FR")}</h2>
       <div className="d-flex gap-2" style={{ overflowX: "auto" }}>
+        {/* 👉 Boucler sur les forecasts reçus en props, et afficher un composant `ForecastItem` pour chaque élément du tableau. Passer une prop `forecast` contenant l'item au composant `ForecastItem`. Voir https://reactjs.org/docs/lists-and-keys.html#embedding-map-in-jsx */}
         {props.forecasts.map((forecast) => (
-          <div
-            className="flex-grow-0 flex-shrink-0"
-            style={{ flexBasis: 250 }}
-            key={forecast.dt_txt}
-          >
-            <ForecastItem forecast={forecast} />
-          </div>
+          <ForecastItem forecast={forecast} key={forecast.dt_txt} />
         ))}
       </div>
     </div>
@@ -46,20 +43,22 @@ const ForecastItem = (props) => {
   const weather = props.forecast.weather[0]
 
   return (
-    <Card>
-      <ForecastIcon icon={weather.icon} />
-      <CardBody>
-        <CardTitle>{hour}h</CardTitle>
-        <ul className="list-unstyled">
-          <li>
-            🌡 {Math.round(props.forecast.main.temp)}°C (
-            {Math.round(props.forecast.main.feels_like)}
-            °C ressentis)
-          </li>
-          <li>🍃 {Math.round(props.forecast.wind.speed)} km/h</li>
-        </ul>
-      </CardBody>
-    </Card>
+    <div className="flex-grow-0 flex-shrink-0" style={{ flexBasis: 250 }}>
+      <Card>
+        <ForecastIcon icon={weather.icon} />
+        <CardBody>
+          <CardTitle>{hour}h</CardTitle>
+          <ul className="list-unstyled">
+            <li>
+              🌡 {Math.round(props.forecast.main.temp)}°C (
+              {Math.round(props.forecast.main.feels_like)}
+              °C ressentis)
+            </li>
+            <li>🍃 {Math.round(props.forecast.wind.speed)} km/h</li>
+          </ul>
+        </CardBody>
+      </Card>
+    </div>
   )
 }
 

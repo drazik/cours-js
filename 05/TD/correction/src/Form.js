@@ -1,15 +1,19 @@
 import * as React from "react"
 
 export const Form = (props) => {
+  // 👉 Définir un state `city` destiné à contenir la ville saisie par l'utilisateur (valeur initiale : chaîne vide)
   const [city, setCity] = React.useState("")
 
   const handleChange = (e) => {
+    // 👉 Mettre à jour le state city avec la valeur de l'input (`e.target`)
     setCity(e.target.value)
   }
 
   const handleSubmit = (e) => {
+    // 👉 Empêcher le comportement par défaut du navigateur
     e.preventDefault()
 
+    // 👉 Passer la ville saisie (sans espaces en début/fin) à la fonction `onSubmit` reçues dans les props
     props.onSubmit(city.trim())
   }
 

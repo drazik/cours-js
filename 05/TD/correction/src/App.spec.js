@@ -1,4 +1,4 @@
-import App from "./App.js"
+import { App } from "./App.js"
 import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
