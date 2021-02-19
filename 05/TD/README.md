@@ -5,7 +5,7 @@ météo des jours à venir pour une ville donnée. Pour récupérer les données
 météorologiques, nous utiliserons l'API "5 day weather forecast" du service
 [Open Weather Map](https://openweathermap.org/).
 
-Voici ce que nous voulons faire : TODO
+Voici ce que nous voulons faire : https://wumiz.csb.app/
 
 Lorsque l'utilisateur saisit le nom d'une ville, on envoie une requête
 asynchrone à l'API, qui nous renvoie un résultat (des données de prévisions
