@@ -1,6 +1,6 @@
 /**
  * @param {string} city
- * @returns {Promise<Forecast>}
+ * @returns {Promise<APIResult>}
  */
 export const fetchForecastForCity = async (city) => {
   const response = await fetch(
