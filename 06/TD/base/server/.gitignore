@@ -4,4 +4,5 @@ coverage
 .vscode
 .DS_STORE
 .env
-tmp
+tmp/*
+!tmp/db.sqlite3
