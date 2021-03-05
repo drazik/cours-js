@@ -1,0 +1,20 @@
+<main class="mx-auto d-grid gap-4" style="max-width: 350px;">
+  <h1 class="text-center">Inscription</h1>
+  <form method="POST" action="http://127.0.0.1:3333/register" class="js-register-form d-grid gap-4">
+    <div class="d-grid gap-3">
+      <div>
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" />
+      </div>
+      <div>
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" id="password" name="password" class="form-control" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Inscription</button>
+    <p>
+      Vous avez déjà un compte ?
+      <a href="/login" data-navigo>Connectez-vous</a>
+    </p>
+  </form>
+</main>
