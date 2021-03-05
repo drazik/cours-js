@@ -60,7 +60,12 @@ vérifier que cela fonctionne, entre cette URL dans un onglet de votre
 navigateur. Si vous voyez s'afficher un message "It works", c'est que le
 serveur fonctionne correctement.
 
-TODO décrire ce qu'il faut faire pour lancer la partie client
+Pour lancer le serveur de l'app client, vous pouvez lancer les commandes suivantes dans un autre terminal :
+
+```
+cd client
+npm run start
+```
 
 ## Organisation du code de l'application client
 
