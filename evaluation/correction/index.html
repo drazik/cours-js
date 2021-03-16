@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Untitled</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="src/app.css"
+	</head>
+
+		<body>
+			<div id="app" class="wrapper">
+				<div class="d-grid gap-4">
+					<h1 class="text-center">Last.fm artists search</h1>
+					<form class="d-grid gap-4">
+						<div>
+							<label for="artist-name" class="form-label">Nom de l'artiste</label>
+							<input type="text" id="artist-name" name="artistName" class="form-control" />
+						</div>
+						<div>
+							<button type="submit" class="btn btn-primary">Rechercher</button>
+						</div>
+					</form>
+					<div id="result"></div>
+				</div>
+			</div>
+
+			<script src="src/index.js">
+			</script>
+		</body>
+
+</html>
