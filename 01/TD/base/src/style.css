@@ -1,34 +1,87 @@
-html {
-  font-family: sans-serif;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  line-height: 1.5;
-}
-
-.Wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.Title {
-  text-align: center;
-}
-
-.Stack > * {
   margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.Stack > * + * {
-  margin-top: 2rem;
+.slider {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
 }
 
-.Form {
+.slider__slides {
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
   display: flex;
-  align-items: center;
+  height: 100%;
 }
 
-.Result {
-  text-align: center;
-  font-size: 1.5rem;
+.slider__slide {
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.slider__slide:nth-child(1) {
+  background-color: red;
+}
+
+.slider__slide:nth-child(2) {
+  background-color: green;
+}
+
+.slider__bullets {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.slider__bullets > * + * {
+  margin-left: 8px;
+}
+
+.slider__bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 0;
+  border: 0;
+  opacity: 0.5;
+}
+
+.slider__bullet:not(:disabled) {
+  cursor: pointer;
+}
+
+.slider__bullet--active {
+  opacity: 1;
+}
+
+.slider__control {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.slider__control:not(:disabled) {
+  cursor: pointer;
+}
+
+.slider__control--previous {
+  left: 0;
+}
+
+.slider__control--next {
+  right: 0;
 }
