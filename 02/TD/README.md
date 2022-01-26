@@ -1,118 +1,43 @@
-# TD 02 : DOM
-
-Dans ce TD, nous allons construire une mini application de liste de courses.
-
-L'application présente à l'utilisateur un formulaire avec un champ de saisie et
-un bouton d'envoi. Lorsque l'utilisateur saisit une valeur et envoie le
-formulaire, un item est ajouté à la liste.
-
-L'utilisateur peut ensuite cocher les items, ce qui modifie leur état
-visuellement, ou les supprimer complètement de la liste.
-
-Le résultat final souhaité peut être visualisé sur https://i6ozb.csb.app/
+# TD 2 : modifications dynamique du style des éléments du DOM
 
 ## Mise en place
 
-Téléchargez les sources avec npx, ou initialisez un CodeSandbox en suivant les
-indications de https://github.com/drazik/cours-js#cours-javascript.
+Lancer les commandes suivantes dans un PowerShell :
 
-N'oubliez pas de lancer un `npm install` pour installer les dépendances du
-projet.
-
-## Présentation
-
-L'application est divisée en 3 modules : 
-
-* `list.js` : gère la partie "liste". Ce module expose les fonctions nécessaires à la création d'un nouvel item de la liste à partir d'un label
-* `form.js` : gère la partie "formulaire". Ce module gère la saisie de l'utilisateur et prend en paramètre une fonction `onSubmit` qui nous permet de le "brancher" à un autre module
-* `app.js` : assemble les modules de liste et de formulaire. Le but de ce module est de connecter la fonction `addItem` retournée par la fonction `initList` du module de liste au paramètre `onSubmit` de la fonction `initForm` du module de formulaire. Ainsi, lorsque l'utilisateur saisit et envoie une valeur, la fonction `addItem` est appelée automatiquement
-
-Votre but est donc d'implémenter chacun de ces modules. Il est préférable de
-les implémenter dans l'ordre suivant :
-
-1. `list.js`
-2. `form.js`
-3. `app.js`
-
-Mais rien n'empêche de les implémenter dans l'ordre de votre choix. Les modules
-list et form sont indépendants l'un de l'autre. Seul le module app est
-dépendant des deux autres.
-
-### Module list
-
-Le travail de ce module est de créer les éléments permettant d'afficher un
-nouvel item dans la liste à partir d'un libellé reçu en paramètre. Il faut donc
-faire usage des fonctions vues dans le cours pour créer ces éléments.
-
-La fonction `initList` prend en paramètre un élément du DOM correspondant à la
-liste dans laquelle les nouveaux items seront ajoutés.
-
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
-
-```
-npm run test -- --watchAll src/list.spec.js
+```console
+$Env:NODE_TLS_REJECT_UNAUTHORIZED = 0
+npm config set strict-ssl false
+npm install
+npm run test -- --watchAll
 ```
 
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/list.js`.
+Ouvrir le dossier du TD dans VS Code.
 
-### Module form
+## Implémentation
 
-Ce module gère la saisie de l'utilisateur. Il prend en paramètre un élément du
-DOM correspondant au formulaire contenant le champ de saisie et le bouton
-d'envoi, ainsi qu'une fonction qui sera appelée lorsque l'utilisateur cliquera
-sur le bouton d'envoi.
+Le but est d'implémenter les fonctions `previous` et `next`. Ces fonctions ont
+pour but de modifier dynamiquement le style de l'élément `slidesContainer` afin
+d'afficher la slide précédente ou la slide suivante.
 
-La fonction `onSubmit` reçue en paramètre permet de rendre ce module
-indépendant du reste de l'application. Il ne sait "que" gérer la saisie de
-l'utilisateur, et délègue le travail à faire lors de l'envoi du formulaire à un
-autre module.
+Pour cela, il faudra créer une variable contenant l'index de la slide en cours
+d'affichage. La valeur initiale de cet index sera `0`.
 
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
+Le rôle de la fonction `previous` sera de décrémenter cet index (sans qu'il
+devienne inférieur à `0`), et le rôle de la fonction `next` sera d'incrémenter
+cet index (sans qu'il devienne supérieur à l'index de la dernière slide).
 
-```
-npm run test -- --watchAll src/form.spec.js
-```
-
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/form.js`.
-
-### Module app
-
-Ce module s'occupe de l'assemblage des modules list et form. Le module list ne
-sait gérer que l'ajout d'items à la liste, et le module form ne sait gérer que
-la saisie de l'utilisateur. Mais le module list nous permet de créer une
-fonction `addItem` qui prend en paramètre un libellé d'un item et qui ajoute un
-nouvel item dans la liste. Et le module form prend en paramètre une fonction
-appelée lorsque le formulaire est envoyé et qui reçoit en paramètre le libellé
-saisit par l'utilisateur. Les deux peuvent donc être assemblés en passant la
-fonction `addItem` issue du module list en paramètre de la fonction `initForm`
-du module form.
-
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
+Afin d'afficher la bonne slide, il faudra modifier la propriété
+`style.transform` de l'élément `slidesContainer`. La formule à appliquer est la suivante :
 
 ```
-npm run test -- --watchAll src/app.spec.js
+-100 * index courant %
 ```
 
-Vous avez aussi des commentaires vous donnant les différentes étapes à
-implémenter dans le fichier `src/app.js`.
+Lorsque l'utilisateur se déplace et arrive sur la 1ère slide, on souhaite
+cacher l'élément `controls.previous`. De même, lorsqu'il arrive sur la dernière
+slide, on souhaite cacher l'élément `slides.next`. Pour cacher ces éléments, on
+peut leur affecter la classe `slider__control--hidden`.
 
-### Test dans le navigateur
-
-Nous avons maintenant 3 modules fonctionnels. Il ne nous reste plus qu'à les
-utiliser pour que notre application fonctionne réellement. Pour cela, ouvrez
-les fichiers `index.html` et `src/main.js`. Suivez les indications du fichier
-`main.js` tout en ayant un oeil sur le fichier `index.html` pour avoir en tête
-la structure HTML qui s'y trouve.
-
-Pour tester le résultat dans le navigateur, lancez la commande :
-
-```
-npm run start
-```
-
-Et rendez vous sur `http://localhost:1234` dans votre navigateur.
+Les éléments `bullets` doivent aussi être mis à jour pour refléter la slide
+active. Pour cela, il faudra affecter la classe `slider__bullet--active` sur
+l'élément `slider__bullet` correspondant à l'index de la slide courante.

@@ -1,87 +1,87 @@
-html,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  width: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.slider {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider__slides {
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
+  display: flex;
   height: 100%;
 }
 
-body {
-  margin: 0;
-  background-color: #f5f5f5;
-  font-family: Roboto, sans-serif;
+.slider__slide {
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
 }
 
-.title {
-  font-weight: normal;
-  text-align: center;
-  font-size: 4rem;
+.slider__slide:nth-child(1) {
+  background-color: red;
 }
 
-.main {
-  background-color: white;
-  width: 90%;
-  max-width: 400px;
-  margin: 0 auto;
-  border: 2px solid #e6e6e6;
+.slider__slide:nth-child(2) {
+  background-color: green;
 }
 
-.list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-  border-top: 2px solid #e6e6e6;
-}
-
-.list__item {
-  padding: 1rem 0.5rem;
-  margin: 0;
-  font-size: 1.25rem;
+.slider__bullets {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
-.list__item:not(:first-child) {
-  border-top: 1px solid #e6e6e6;
+.slider__bullets > * + * {
+  margin-left: 8px;
 }
 
-.list__item--selected {
-  background-color: #f3f3f3;
-  color: #999;
-}
-
-.list__label {
-  margin-left: 0.5rem;
-  flex: 1;
-}
-
-.list__item--selected .list__label {
-  text-decoration: line-through;
-}
-
-.list__remove-btn {
+.slider__bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 0;
   border: 0;
-  padding: 0.5rem;
-  background-color: transparent;
-  cursor: pointer;
-  opacity: 0;
+  opacity: 0.5;
 }
 
+.slider__bullet:not(:disabled) {
+  cursor: pointer;
+}
 
-.list__item:hover .list__remove-btn,
-.list__remove-btn:focus {
+.slider__bullet--active {
   opacity: 1;
 }
 
-.input {
-  font-size: 1.5rem;
-  width: 100%;
-  box-sizing: border-box;
-  border: 0;
-  padding: 1rem;
+.slider__control {
+  position: absolute;
+  top: 0;
+  height: 100%;
 }
 
-.submit-btn {
-  width: 100%;
-  font-size: 1.25rem;
-  font-weight: bold;
-  padding: 0.25rem;
+.slider__control:not(:disabled) {
+  cursor: pointer;
+}
+
+.slider__control--previous {
+  left: 0;
+}
+
+.slider__control--next {
+  right: 0;
 }
