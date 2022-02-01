@@ -84,7 +84,7 @@ describe("elements", () => {
 })
 
 describe("previous", () => {
-  test.skip("does nothing when already on first slide", () => {
+  test("does nothing when already on first slide", () => {
     const { slider } = setup()
 
     slider.previous()
