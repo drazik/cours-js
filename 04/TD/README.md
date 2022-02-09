@@ -33,7 +33,7 @@ Le but est d'implémenter la fonction `createElements`. Cette fonction reçoit e
 
 * conteneur des bullets : un élément `<div class="slider__bullets"></div>`. Cet élément contiendra les bullets
 * les bullets : un tableau d'éléments `<button type="button" class="slider__bullet">go to slide {INDEX DE LA SLIDE}</button>`. Remplacer la chaîne `{INDEX DE LA SLIDE}` par l'index de la slide dans le tableau (`0`, `1`, `2`, ...)
-* les boutons précédent (`<div class="slider__control slider__control--previous">Previous</div>`) et suivant (`<div class="slider__control slider__control--next">Next</div>`)
+* les boutons précédent (`<button type="button" class="slider__control slider__control--previous">Previous</button>`) et suivant (`<button type="button" class="slider__control slider__control--next">Next</button>`)
 
 Implémentez cette fonction en utilisant les méthodes vues dans le cours :
 
