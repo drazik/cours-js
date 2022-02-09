@@ -1,82 +1,49 @@
-# TD 04 : Requêtes asynchrones
-
-Dans ce TD, nous allons améliorer le formulaire d'inscription du TD 03 en y ajoutant
-une requête asynchrone vers un serveur lorsque le formulaire est envoyé.
-
-Lorsque le serveur réussi à traiter avec succès la requête, on affiche un
-message de succès. Lorsqu'il renvoie une erreur, on affiche le message d'erreur
-qu'il nous fournit, ou un message d'erreur générique.
+# TD 4 : création dynamique d'éléments dans le DOM
 
 ## Mise en place
 
-Téléchargez les sources avec npx, ou initialisez un CodeSandbox en suivant les
-indications de https://github.com/drazik/cours-js#cours-javascript.
+Lancer les commandes suivantes dans un PowerShell :
 
-N'oubliez pas de lancer un `npm install` pour installer les dépendances du
-projet.
-
-## Présentation
-
-L'application est divisée en deux parties : le client et le serveur.
-
-Le client est l'application qui présente le formulaire à l'utilisateur. Le
-serveur est un serveur d'exemple qui persiste les données dans une fausse base
-de données. Ce n'est pas une implémentation production-ready.
-
-Par rapport à la correction du TD 03, il y a deux nouveaux modules :
-
-* `api.js` : gère la communication avec le serveur. Ce module doit être implémenté par vos soins
-* `alert.js` : gère l'affichage d'un élément d'alerte (succès ou erreur). Ce module est déjà implémenté
-
-Votre but est donc d'implémenter le module `api.js` et de modifier le module
-`form.js` de manière à envoyer une requête au serveur lorsque le formulaire est
-envoyé.
-
-Chacun des modules a son lot de tests automatiques.
-
-## Module api
-
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
-
-```
-npm run test -- --watchAll src/api.spec.js
+```console
+$Env:NODE_TLS_REJECT_UNAUTHORIZED = 0
+npm config set strict-ssl false
+npm install
+npm run test -- --watchAll
 ```
 
-Ce module expose une fonction `registerUser` qui prend en paramètre un objet de
-type `FormData`. Elle envoie une requête asynchrone de type POST sur le serveur
-afin que celui-ci persiste un nouvel utilisateur dans la base de données.
+Ouvrir le dossier du TD dans VS Code.
 
-## Module form
+## Implémentation
 
-Pour implémenter le module, vous avez à votre disposition des tests
-automatiques, en lançant la commande suivante : 
+Dans les TD précédents, l'ensemble des éléments nécessaires au fonctionnement
+du slider étaient pré-existants dans le fichier `index.html`. Lorsque notre
+script JS était exécuté, ces éléments étaient déjà disponibles. On récupérait
+ces éléments et on les modifiait pour faire fonctionner le slider. 
 
-```
-npm run test -- --watchAll src/form.spec.js
-```
+Dans ce TD, notre but est de créer dynamiquement les éléments intéractifs du slider : 
 
-C'est le même module que celui du TD 03, sauf que maintenant nous souhaitons
-envoyer une requête au serveur lorsque le formulaire est envoyé.
+* Bullets
+* Boutons précédent et suivant
 
-Lorsque la réponse de la requête nous parvient, on souhaite afficher un message
-de succès ou un message d'erreur. Le module api est implémenté de manière à
-renvoyer une Promise résolue avec un objet si la requête est en succès, et
-rejetée avec  une erreur si la requête est en erreur. Vous pouvez donc utiliser
-l'API des Promise (`.then` et `.catch`).
+La raison derrière ce changement, est une volonté de ne pas afficher d'éléments
+intéractifs inopérants sur la page si notre script JS échoue à être chargé, ou
+si il plante à l'exécution.
 
-## Test dans le navigateur
+Le but est d'implémenter la fonction `createElements`. Cette fonction reçoit en paramètre l'élément racine du slider, et doit créer les éléments suivants :
 
-Nous avons maintenant 3 modules fonctionnels. Il ne nous reste plus qu'à les
-utiliser pour que notre application fonctionne réellement. Pour cela, ouvrez
-les fichiers `index.html` et `src/main.js`. Suivez les indications du fichier
-`main.js` tout en ayant un oeil sur le fichier `index.html` pour avoir en tête
-la structure HTML qui s'y trouve.
+* conteneur des bullets : un élément `<div class="slider__bullets"></div>`. Cet élément contiendra les bullets
+* les bullets : un tableau d'éléments `<button type="button" class="slider__bullet">go to slide {INDEX DE LA SLIDE}</button>`. Remplacer la chaîne `{INDEX DE LA SLIDE}` par l'index de la slide dans le tableau (`0`, `1`, `2`, ...)
+* les boutons précédent (`<div class="slider__control slider__control--previous"></div>`) et suivant (`<div class="slider__control slider__control--next"></div>`)
 
-Pour tester le résultat dans le navigateur, lancez la commande :
+Implémentez cette fonction en utilisant les méthodes vues dans le cours :
 
-```
-npm run start
-```
+* `document.createElement()`
+* `prepend()` / `append()` / `after()` / `before()` / `replaceWith()`
+* `innerHTML` / `innerText` / `textContent`
 
-Et rendez vous sur `http://localhost:1234` dans votre navigateur.
+Attention, les tests sont tous désactivés par défaut dans ce TD car sans les
+éléments qu'on souhaite créer, le slider ne peut pas fonctionner, donc
+l'ensemble des tests échoue. Pour se focaliser sur les tests à faire passer
+pour valider ce TD, recherchez `TODO` dans le fichier `slider.spec.js` et
+activez les tests que vous trouvez. Une fois que ces tests passent, essayez de
+réactiver tous les autres.

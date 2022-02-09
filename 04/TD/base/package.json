@@ -1,31 +1,30 @@
 {
-  "name": "js-td-01",
+  "name": "base",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "parcel serve index.html --open",
-    "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest",
+    "start": "parcel src/index.html"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.0.0-beta.1"
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@testing-library/dom": "^8.11.2",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/user-event": "^13.5.0",
+    "cross-env": "^7.0.3",
+    "jest": "^27.4.7",
+    "parcel": "^2.2.1",
+    "prettier": "^2.5.1"
   },
-  "dependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@testing-library/dom": "^7.29.4",
-    "@testing-library/jest-dom": "^5.0.2",
-    "@testing-library/user-event": "^12.6.2",
-    "bootstrap": "^5.0.0-beta1",
-    "jest": "^26.6.3",
-    "msw": "^0.26.2",
-    "node-fetch": "^2.6.1"
+  "prettier": {
+    "semi": false
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ]
+  "eslintConfig": {
+    "extends": "eslint:recommended"
   }
 }
