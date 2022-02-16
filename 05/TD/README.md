@@ -1,146 +1,131 @@
-# TD 05 : React
-
-Dans ce TD, nous allons développer une application permettant d'afficher la
-météo des jours à venir pour une ville donnée. Pour récupérer les données
-météorologiques, nous utiliserons l'API "5 day weather forecast" du service
-[Open Weather Map](https://openweathermap.org/).
-
-Voici ce que nous voulons faire : https://wumiz.csb.app/
-
-Lorsque l'utilisateur saisit le nom d'une ville, on envoie une requête
-asynchrone à l'API, qui nous renvoie un résultat (des données de prévisions
-météorologiques ou une erreur). Pendant qu'on attend le résultat, on affiche un
-spinner pour indiquer que le chargement est en cours. Une fois qu'on a reçu le
-résultat, si on a des données, on les affiche; si c'est une erreur, on affiche
-le message d'erreur.
-
-L'application est développée avec la librairie React et découpée en plusieurs
-composants qu'il faut implémenter.
+# TD 5 : requêtes asynchrones et manipulation du DOM
 
 ## Mise en place
 
-Téléchargez les sources avec npx, ou initialisez un CodeSandbox en suivant les
-indications de https://github.com/drazik/cours-js#cours-javascript.
+Lancer les commandes suivantes dans un PowerShell :
 
-N'oubliez pas de lancer un `npm install` pour installer les dépendances du
-projet.
+```console
+$Env:NODE_TLS_REJECT_UNAUTHORIZED = 0
+npm config set strict-ssl false
+npm install
+npm run test -- --watchAll
+```
 
-## Présentation
-
-### Architecture
-
-Voici la manière dont l'application est découpée en composants :
-
-![](./components.png)
+Ouvrir le dossier du TD dans VS Code.
 
 ## Implémentation
 
-### Module api
+L'objectif de ce TD est de développer une mini application sociale qui charge
+et affiche une liste de posts lorsqu'elle est chargée, et propose un formulaire
+pour ajouter un nouveau statut. L'objectif est de récupérer les posts existants
+et de créer les nouveaux avec des requêtes asynchrones.
 
-Le module API expose une fonction `fetchForecastForCity`. Cette fonction doit
-faire une requête asynchrone (`fetch`, voir cours et TD de la semaine
-précédente) vers l'API Open Weather Map.
+L'application est divisée en plusieurs composants : 
 
-Pour cela, vous aurez besoin d'une clef d'API. Vous pouvez en créer une en
-créant un compte sur [Open Weather
-Map](https://home.openweathermap.org/users/sign_up) (garanti sans newsletter
-chiante). Une fois votre compte créé, connectez-vous, puis dans le menu cliquez
-sur votre identifiant puis dans "My API keys". Sur la nouvelle page qui
-s'affiche, sous le titre "Create key", entrez le nom que vous voulez pour votre
-nouvelle clef, puis cliquez sur "Generate". La clef sera créée et apparaîtra à
-gauche. Vous pouvez la copier et la mettre dans le fichier `.env.example`.
-Enfin, renommez le fichier `.env.example` en `.env`.
+* `Spinner` : permet d'afficher un élément indiquant le chargement en cours d'une ressource. Ce composant sera utilisé pour indiquer que les posts existants sont en cours de chargement. Ce composant est déjà implémenté et fonctionnel
+* `Alert`: permet de créer un bandeau d'alert refermable. Ce composant sera utilisé pour afficher les messages d'erreur
+* `Post` : permet de créer la structure HTML décrivant un post
+* `PostsList` : permet de gérer la liste des posts. Ce composant est responsable de charger les posts existants et d'afficher les nouveaux posts
+* `PostsForm` : permet de créer un nouveau post. Ce composant est responsable de gérer la saisie de l'utilisateur et d'envoyer les données saisies au serveur pour créer les nouvelles données
+* `app` : initialise et fait communiquer les composants `PostsList` et `PostForm` pour rendre l'application fonctionnelle.
 
-Le fichier `.env` sert à contenir des variables d'environnement. La clef d'API
-est une variable d'environnement parce qu'on pourrait vouloir utiliser une clef
-différente pour développer en local et pour la production par exemple.
+### Composant `Alert`
 
-Une fois votre clef API en place, vous pouvez lancer les tests : 
+Implémentez la fonction `create` de ce module. L'objectif est de créer dynamiquement la structure HTML suivante :
 
-```
-npm run test -- --watchAll api
-```
-
-Et suivre les indications pour implémenter le module `src/api.js`.
-
-### Composant Form
-
-Ce composant a pour but de gérer la saisie de l'utilisateur. Le but est de stocker cette saisie dans un state dynamique. Tant que la ville saisie est vide ou composée uniquement d'espaces, le bouton d'envoi du formulaire doit être désactivé. Lorsqu'un nom de ville a été saisi, celui-ci s'active.
-
-Lorsque l'utilisateur envoie le formulaire, le comportement par défaut du
-navigateur doit être empêché, et la saisie de l'utilisateur doit être passée à
-une fonction `onSubmit` reçue dans les props du composant.
-
-Une suite de tests automatiques vous donnera du feedback sur votre avancement :
-
-```
-npm run test -- --watchAll Form
+```html
+<div class="alert alert-error alert-dismissible" role="alert">
+  {message}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+</div>
 ```
 
-### Composant Forecast
+La fonction prend en paramètre le message à afficher, qui doit être affiché à
+la place de `{message}` dans la structure précédente.
 
-Ce composant sert à afficher les données renvoyées par l'API. Il reçoit deux props :
+La fonction renvoie l'élément créé.
 
-* `city`: un objet de type `{ name: string }` décrivant la ville recherchée
-* `forecasts`: un tableau d'objets de la forme suivante : 
+### Composant `Post`
 
+Implémentez la fonction `create` de ce module. L'objectif est de créer dynamiquement la structure HTML suivante :
+
+```html
+<article class="card">
+  <div class="card-body">
+    <p class="card-text">{data.body}</p>
+  </div>
+</article>
 ```
+
+La fonction prend en paramètre un objet `data` de la forme suivante :
+
+```js
 {
-  dt_txt: string, // date de la prévision au format texte
-  main: {
-    feels_like: number, // température ressentie (en degrés celsius)
-    temp: number, // température (en degrés celsius)
-  },
-  weather: [
-   {
-     icon: string, // identifiant de l'icône correspondant à la météo
-   }
-  ],
-  wind: {
-    speed: number, // vitesse du vent (en km/h)
-  }
+  id: 1,
+  body: "Texte à afficher"
 }
 ```
 
-Il est découpé en plusieurs composants. Jettez un oeil à la section
-architecture ci-dessus pour un aperçu du découpage.
+### Composant `PostsList`
 
-Pour lancer les tests : 
+Le HTML de ce composant est déjà présent dans la page (voir fichier
+`index.html`). Par défaut, la liste est vide, c'est un élément
+`<section></section>`.
 
-```
-npm run test -- --watchAll Forecast
-```
+La fonction `init` de ce composant doit implémenter les cas suivants :
 
-### Composant App
+* Afficher un spinner lorsque le composant est initialisé
+* Envoyer une requête sur l'URL `https://jsonplaceholder.typicode.com/posts` lorsque le composant est initialisé
+* Afficher les posts renvoyés par le serveur lorsque celui-ci a renvoyé une réponse en succès
+* Afficher une alert avec un message d'erreur lorsque le serveur a renvoyé une réponse en erreur
+* Exposer une fonction `preprend` qui prend en paramètre les données d'un post, crée ce post et l'ajoute en 1er élément de la liste
 
-Ce composant est le chef d'orchestre. Il s'occupe d'envoyer la requête à l'API
-lorsque le formulaire est envoyé, de récupérer le résultat, de l'afficher si on
-récupère des données, d'afficher une erreur sinon, et d'afficher un message de
-chargement pendant le temps de chargement des données.
+### Composant `PostForm`
 
-Pour cela, il utilise différents states :
+Le HTML de ce composant est déjà présent dans la page (voir fichier
+`index.html`). C'est un élément `form` dans lequel on trouve un champ
+`textarea`. Ce `textarea` a un attribut `name="body"`. Grâce à cet attribut, il
+est possible de récupérer une référence vers cet élément directement à partir
+du formulaire. Par exemple :
 
-* `status`: stocke l'état de la requête asynchrone. Les valeurs possibles sont `"idle"` (en attente), `"loading"` (en cours de chargement), `"success"` (données reçues), `"error"` (erreur reçue). Ce state sert à conditionner l'affichage (message de chargement, données, message d'erreur)
-* `data`: stocke les données renvoyées par l'API
-* `error`: stocke le message d'erreur produit par l'appel à l'API
-
-Il fait usage de tous les modules développés pour arriver au résultat final.
-
-Pour lancer les tests :
-
-```
-npm run test -- --watchAll App
+```js
+const form = document.querySelector("form")
+const bodyTextarea = form.elements.body // "body" correspond à la valeur de l'attribut `name` de la textarea
 ```
 
+Dans ce formulaire se trouve aussi un élément `<button
+type="submit">...</button>`. Ce bouton permet, lorsqu'il est cliqué, d'envoyer
+le formulaire (évènement `submit`).
 
-## Test dans le navigateur
+La fonction `init` de ce composant doit implémenter les cas suivants :
 
-Pour tester le résultat dans le navigateur, lancez la commande :
+* Le bouton submit doit être `disabled` par défaut
+* Le bouton submit doit être `disabled` lorsque la saisie de l'utilisateur ne contient que des espaces
+* Le bouton submit ne doit pas être `disabled` lorsque la saisie de l'utilisateur contient autre chose que des espaces
+* L'envoi du formulaire doit déclencher l'envoi d'une requête asynchrone (`fetch`) vers l'URL `https://jsonplaceholder.typicode.com/posts` avec les caractéristiques suivantes :
+  * Méthode `post` 
+  * Header `"Content-Type": "application/json; charset=UTF-8"`
+  * Body : un objet `{ body: string }` où `body` contient la valeur saisie par l'utilisateur. Penser à `JSON.stringify` cet objet, car `body` ne peut contenir qu'une chaîne de caractères ou un objet `FormData`
+* Pendant l'envoi de la requête, le bouton submit doit être `disabled`
+* Lorsque le serveur renvoie une réponse en succès, réinitaliser la valeur de la textarea
+* La fonction `onSuccess` reçue dans l'objet `options` doit être appelée avec les données reçues du serveur lorsque celui-ci renvoie une réponse en succès. Attention, cette fonction peut ne pas être passée, c'est à dire qu'il est possible que `options.onSuccess` soit égal à `undefined`
+* Un message d'erreur doit être affiché lorsque le serveur renvoie une réponse en erreur (en utilisant le module `Alert`)
+* Le bouton submit ne doit pas être `disabled` lorsque le serveur renvoie une réponse en erreur
+* L'envoi du formulaire doit fermer le message d'erreur présent si il y en a a un
 
-```
-npm run start
-```
+### app
 
-Cette commande lance un serveur de développement local avec rafraîchissement
-automatique lorsque vous sauvegardez un fichier source. Rendez vous sur
-`http://localhost:3000` dans votre navigateur pour y voir le résultat.
+Maintenant que nos différents composants fonctionnent comme attendu, il va être
+question de les interfacer entre eux.
+
+Pour que notre application fonctionne, nous avons besoin de :
+
+* Récupérer l'élément racine du composant `PostsList` dans la page
+* Initiliser un `PostsList` avec cet élément
+* Récupérer l'élément racine du composant `PostForm` dans la page
+* Initialiser un `PostForm` avec cet élément
+* Passer un objet en 2ème paramètre de `PostForm.init`. Celui-ci doit avoir une propriété `onSuccess` qui est une fonction permettant d'appeler la fonction `preprend` du `PostsList` créé précédemment. De cette manière, lorsque le composant `PostForm` a réussi à créer un nouveau post, cette fonction sera appelée et le post apparaîtra dans la liste
+
+Pour tester votre application dans le navigateur et voir si elle fonctionne ou
+non, vous pouvez lancer la commande `npm run start` dans un PowerShell. Un
+serveur local sera lancé sur `http://localhost:1234`.

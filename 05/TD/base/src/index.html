@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TD 05</title>
+    <script src="./js/app.js" defer type="module"></script>
+  </head>
+  <body class="bg-light">
+    <div class="container">
+      <section class="card mb-4">
+        <form
+          method="post"
+          action="https://jsonplaceholder.typicode.com/posts"
+          class="card-body post-form d-grid gap-3"
+        >
+          <div>
+            <label for="body" class="form-label">
+              What's on your head right now?
+            </label>
+            <textarea
+              class="form-control"
+              id="body"
+              name="body"
+              placeholder="Spread your thoughts all over the world..."
+            ></textarea>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary">Publish</button>
+          </div>
+        </form>
+      </section>
+      <section class="posts-list"></section>
+    </div>
+  </body>
+</html>

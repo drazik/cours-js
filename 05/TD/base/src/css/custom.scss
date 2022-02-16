@@ -1,0 +1,7 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+body {
+  --vertival-margin: 2rem;
+  margin-top: var(--vertival-margin);
+  margin-bottom: var(--vertival-margin);
+}
