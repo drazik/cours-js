@@ -164,3 +164,13 @@ L'objectif est de:
   * afficher un message d'erreur dans l'`Alerter` lorsqu'une erreur est survenue
 
 Vous pouvez tester le résultat directement dans votre navigateur en lançant le serveur de développement local avec la commande `npm run start`.
+
+## Envoyer votre travail
+
+Une fois terminé, faites une archive ZIP du dossier du projet, **sans inclure les fichiers suivants dedans**:
+
+* `.parcel-cache`
+* `dist`
+* `node_modules`
+
+Envoyez l'archive en message privé sur Discord.
