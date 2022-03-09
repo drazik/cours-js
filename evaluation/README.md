@@ -99,7 +99,7 @@ https://images-api.nasa.gov/search?q=RECHERCHE&media_type=image
 
 Dans cette URL, le mot `RECHERCHE` doit être remplacé par les termes de la
 recherche encodés pour être embarqués dans une URL. Pour cela, voir la fonction
-[`encoreURIComponent`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent).
+[`encodeURIComponent`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent).
 
 ## Implémentation du module `src/api/SearchForm.js`
 
