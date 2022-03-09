@@ -49,7 +49,9 @@ Puis relancer le serveur.
 
 L'objectif est de développer une page web permettant de faire des recherches
 d'images dans l'API Images de la NASA. Le résultat final souhaité peut être vu
-ici : https://nasa-gallery-nine.vercel.app/.
+ici : https://nasa-gallery-nine.vercel.app/. Vous pouvez essayer de rechercher
+des objets célestes via leurs noms en anglais, par exemple : "nebula", "orion",
+"earth", "moon"...
 
 Vous avez à votre disposition les fichiers suivants :
 
