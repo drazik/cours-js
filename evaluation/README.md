@@ -139,7 +139,7 @@ but d'afficher les éléments contenus dans le résultat de la requête dans
 l'élément `root`. Chaque élément doit avoir la structure suivante :
 
 ```html
-<li>
+<li class="gallery-item">
   <a href="URL DE L'IMAGE" target="_blank">
     <img src="URL DE L'IMAGE" alt="TITRE DE L'IMAGE" />
   </a>
