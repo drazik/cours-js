@@ -148,7 +148,7 @@ l'élément `root`. Chaque élément doit avoir la structure suivante :
 
 L'URL de l'image est contenue dans la propriété `links[0].href` de chaque
 élément renvoyé par l'API. Le titre de l'image est contenu dans la propriété
-`data[0].href` de chaque élément renvoyé par l'API.
+`data[0].title` de chaque élément renvoyé par l'API.
 
 ## Implémentation du module `src/js/app.js`
 
