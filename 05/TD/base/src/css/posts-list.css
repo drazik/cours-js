@@ -1,7 +1,0 @@
-.posts-list > * + * {
-  margin-top: 2rem;
-}
-
-.posts-list {
-  list-style: none;
-}
