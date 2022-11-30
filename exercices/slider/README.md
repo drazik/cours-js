@@ -29,6 +29,8 @@ npm run dev
 
 Si vous souhaitez lancer les tests et le serveur de développement en parallèle, c'est possible, il faut juste que vous lanciez une console pour chaque commande.
 
+Si vous êtes coincé(e), le fichier `src/slider-finished` contient la correction de l'exercice.
+
 ## Etape 1 : prise de connaissance du code initial
 
 ```
