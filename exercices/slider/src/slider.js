@@ -133,7 +133,7 @@ if (import.meta.vitest) {
 		it.skip("La première slide est visible", () => {
 			const { slider } = setup()
 
-			expect(slider.elements.slidesContainer.style.translate).toBe("-0%")
+			expect(slider.elements.slidesContainer.style.translate).toBe("0%")
 		})
 
 		it.skip("L'élément bullet correspondant à la première slide est actif", () => {

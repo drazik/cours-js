@@ -3,14 +3,16 @@
  */
 export const init = (root) => {
   const elements = getElements(root);
+	let index = 0
 
-	updateElements(elements, 0)
+	updateElements(elements, index)
 
-	const goTo = (index) => {
-		if (index < 0 || index > elements.slides.length - 1) {
+	const goTo = (newIndex) => {
+		if (newIndex < 0 || newIndex > elements.slides.length - 1) {
 			throw new Error("Index out of bounds")
 		}
 
+		index = newIndex
 		updateElements(elements, index)
 	}
 
@@ -25,7 +27,7 @@ const updateElements = (elements, currentIndex) => {
 	elements.controls.previous.disabled = currentIndex === 0
 	elements.controls.next.disabled = currentIndex === elements.slides.length - 1
 
-	elements.slidesContainer.style.translate = `-${currentIndex * 100}%`
+	elements.slidesContainer.style.translate = `${-currentIndex * 100}%`
 	elements.bullets.forEach((bullet, bulletIndex) => {
 		bullet.classList.toggle("slider__bullet--active", currentIndex === bulletIndex)
 	})
@@ -162,7 +164,7 @@ if (import.meta.vitest) {
 		it("La première slide est visible", () => {
 			const { slider } = setup()
 
-			expect(slider.elements.slidesContainer.style.translate).toBe("-0%")
+			expect(slider.elements.slidesContainer.style.translate).toBe("0%")
 		})
 
 		it("L'élément bullet correspondant à la première slide est actif", () => {
