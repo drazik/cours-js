@@ -2,7 +2,7 @@ import * as Slider from "./src/slider"
 
 const sliderRoot = document.querySelector(".slider")
 
-if (!sliderRoot) {
+if (sliderRoot === null) {
 	throw new Error("Couldn't find slider root")
 }
 

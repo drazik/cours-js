@@ -3,17 +3,17 @@
  */
 export const init = (root) => {
   const elements = getElements(root);
-	let index = 0
+	let currentIndex = 0
 
 	updateElements(elements, index)
 
-	const goTo = (newIndex) => {
-		if (newIndex < 0 || newIndex > elements.slides.length - 1) {
+	const goTo = (index) => {
+		if (index < 0 || index > elements.slides.length - 1) {
 			throw new Error("Index out of bounds")
 		}
 
-		index = newIndex
-		updateElements(elements, index)
+		currentIndex = index
+		updateElements(elements, currentIndex)
 	}
 
   return { elements, goTo };
