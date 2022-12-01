@@ -1,0 +1,19 @@
+{
+  "name": "slider",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^8.19.0",
+    "@testing-library/user-event": "^14.4.3",
+    "jsdom": "^20.0.3",
+    "vite": "^3.2.3",
+    "vitest": "^0.25.3"
+  }
+}

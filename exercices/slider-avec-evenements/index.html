@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite App</title>
+		<script type="module" src="/main.js"></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="slider">
+			<ul class="slider__slides">
+				<li class="slider__slide">Slide 1</li>
+				<li class="slider__slide">Slide 2</li>
+			</ul>
+			<div class="slider__bullets">
+				<button
+					class="slider__bullet slider__bullet--active"
+					type="button"
+				>Slide 1</button>
+				<button class="slider__bullet" type="button">Slide 2</button>
+			</div>
+			<div class="slider__controls">
+				<button class="slider__control slider__control--previous" type="button" aria-label="Previous">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15.208 18.29-6-6 6-6"/></svg>
+				</button>
+				<button class="slider__control slider__control--next" type="button" aria-label="Next">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18 6-6-6-6"/></svg>
+				</button>
+			</div>
+		</div>
+	</body>
+</html>
+
+
