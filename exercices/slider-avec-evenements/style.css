@@ -48,11 +48,8 @@ body {
 	left: 0;
 	width: 100%;
 	display: flex;
+	gap: 8px;
 	justify-content: center;
-}
-
-.slider__bullets > * + * {
-	margin-left: 8px;
 }
 
 .slider__bullet {
@@ -64,6 +61,7 @@ body {
 	border: 0;
 	opacity: 0.5;
 	color: hsla(0deg 0% 0% / 0%);
+	overflow: hidden;
 }
 
 .slider__bullet:not(:disabled) {
