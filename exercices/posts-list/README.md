@@ -76,14 +76,3 @@ La structure HTML d'un article devra être la suivante :
 	<p>post.excerpt</p>
 </article>
 ```
-
-Une fois que vous avez ceci, au lieu de mettre les éléments dans l'élément `<div data-component="posts-list"></div>`, créez un élément intermédiaire `<div class="posts-list"></div>` et mettez-y les éléments, de manière à ce que les articles s'affichent sous forme d'une grille. La structure HTML de la grille d'article devra être la suivante :
-
-```html
-<div class="posts-list">
-	<article class="post">...</article>
-	<article class="post">...</article>
-	<article class="post">...</article>
-	<!-- ... -->
-</div>
-```
