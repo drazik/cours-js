@@ -1,0 +1,95 @@
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+html {
+	font-family: sans-serif;
+}
+
+body {
+	color: #1c1917;
+}
+
+h1 {
+	font-size: 3rem;
+	line-height: 1.15;
+	color: #27272a;
+	margin-bottom: 3rem;
+}
+
+.wrapper {
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.article {
+	font-size: 1rem;
+	line-height: 1.75;
+}
+
+.article p {
+	margin-block: 1.25em;
+}
+
+.article h1 {
+	font-size: 2.25rem;
+	margin-block: 0 0.9em;
+	line-height: 1.1;
+}
+
+.comments-list {
+	display: grid;
+	gap: 50px;
+}
+
+.comment__email {
+	font-weight: bold;
+	margin: 0;
+}
+
+.comment__date {
+	display: block;
+	margin-block-start: 0.25rem;
+	font-size: 0.875rem;
+}
+
+.comment__content {
+	margin-block-start: 1.25em;
+	line-height: 1.75;
+}
+
+.form-row + .form-row {
+	margin-block-start: 16px;
+}
+
+form {
+	margin-block-start: 60px;
+}
+
+label {
+	display: block;
+	margin-block-end: 8px;
+}
+
+input,
+textarea {
+	border-radius: 8px;
+	border: 1px solid black;
+	padding: 6px 10px;
+}
+
+textarea {
+	resize: vertical;
+	max-width: 500px;
+	width: 100%;
+}
+
+.form-actions {
+	margin-block-start: 40px;
+}
