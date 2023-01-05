@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+		<link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+		<section data-component="artists-chart">
+			<h2>Top artistes</h2>
+			<div data-slot="content"></div>
+		</section>
+
+		<div>
+			<form data-component="search-form">
+				<label for="query">Rechercher un(e) artiste</label>
+				<input type="text" id="query" name="query" list="search-artists" />
+				<datalist id="search-artists"></datalist>
+			</form>
+
+			<div data-component="artist"></div>
+		</div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
